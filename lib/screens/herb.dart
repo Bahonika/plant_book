@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:polar_sun/data/entities/plant.dart';
 import 'package:polar_sun/data/repositories/plant_repository.dart';
 
-import '../templates/plant_button.dart';
+import '../buttons/plant_button.dart';
 
 class Herb extends StatefulWidget {
   const Herb({Key? key}) : super(key: key);
@@ -19,7 +19,6 @@ class _HerbState extends State<Herb> {
 
   Future<void> getData(Map<String, String> queryParams) async {
     plants = await repository.getAll(queryParams: queryParams);
-    print(plants);
     setState(() {});
   }
 

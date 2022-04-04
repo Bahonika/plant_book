@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:polar_sun/screens/main_menu.dart';
 import 'package:polar_sun/templates/main_drawer.dart';
+import 'package:polar_sun/utils/theme_data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,19 +36,9 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
+
     return MaterialApp(
-      theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromRGBO(187, 197, 177, 1),
-          backgroundColor: const Color.fromRGBO(187, 197, 177, 1),
-          primaryColor: primary,
-          canvasColor: const Color.fromRGBO(187, 197, 177, 1),
-          textTheme: const TextTheme(
-              displaySmall: TextStyle(color: Color.fromRGBO(233, 212, 0, 1))),
-          colorScheme: ColorScheme.fromSwatch()
-              .copyWith(onPrimary: Colors.black54)
-              .copyWith(primaryContainer: const Color.fromRGBO(245, 245, 245, 0.6))
-              .copyWith(primary: primary)
-              .copyWith(secondary: const Color.fromRGBO(62, 151, 139, 1))),
+      theme: themeData,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
@@ -56,10 +47,10 @@ class _MyAppState extends State<MyApp> {
             'Полярное солнце',
           ),
         ),
-        drawer: MainDrawer(),
+        drawer: const MainDrawer(),
         body: Column(
           children: [
-            MainMenu(),
+            const MainMenu(),
             Expanded(
                 child: Align(
                     alignment: FractionalOffset.bottomCenter,

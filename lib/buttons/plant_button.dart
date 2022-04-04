@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:polar_sun/screens/plant_view.dart';
+import 'package:polar_sun/views/plant_view.dart';
 
 import '../data/entities/plant.dart';
 
 class PlantButton extends StatelessWidget {
   final Plant plant;
 
-  const PlantButton(this.plant);
+  const PlantButton(this.plant, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(plant.photo);
     return Container(
       height: MediaQuery.of(context).size.height * 0.135,
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Theme.of(context).colorScheme.primaryContainer
@@ -26,7 +25,7 @@ class PlantButton extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
@@ -37,7 +36,7 @@ class PlantButton extends StatelessWidget {
                 ),
               ),
             ),
-            Divider(),
+            const Divider(),
             Text(plant.name, textAlign: TextAlign.center),
           ],
         ),

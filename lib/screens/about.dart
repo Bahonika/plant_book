@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class About extends StatelessWidget {
+  const About({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(
+          title: const Text(
             "О нас",
           ),
         ),
@@ -16,7 +18,7 @@ class About extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset('lib/assets/masu.png'),
-              Text(
+              const Text(
                 "Проект создан в рамках дисциплины "
                     "\"Университетский проект\" командой "
                     "студентов 2ПМИ и 2БИО \nПочта для"

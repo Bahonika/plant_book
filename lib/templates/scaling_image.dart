@@ -7,14 +7,14 @@ class ScalingImage extends StatefulWidget {
   @override
   _ScalingImageState createState() => _ScalingImageState();
 
-  ScalingImage(this.image);
+  const ScalingImage(this.image, {Key? key}) : super(key: key);
 }
 
 class _ScalingImageState extends State<ScalingImage>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: PhotoView(

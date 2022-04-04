@@ -4,7 +4,7 @@ import 'package:polar_sun/data/entities/plant.dart';
 class PlantView extends StatefulWidget {
   final Plant plant;
 
-  PlantView({required this.plant});
+  PlantView({Key? key, required this.plant}) : super(key: key);
 
   @override
   State<PlantView> createState() => _PlantViewState();
@@ -46,7 +46,6 @@ class _PlantViewState extends State<PlantView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(187, 197, 177, 1),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:polar_sun/data/entities/park.dart';
-import '../templates/park_button.dart';
+import 'package:polar_sun/main.dart';
+import 'package:polar_sun/utils/device_screen_type.dart';
+import '../buttons/park_button.dart';
 
 class Parks extends StatefulWidget {
+  const Parks({Key? key}) : super(key: key);
+
   @override
   _ParksState createState() => _ParksState();
 }
@@ -93,6 +97,8 @@ class _ParksState extends State<Parks> {
 
   @override
   Widget build(BuildContext context) {
+    print(getDeviceType(MediaQuery.of(context)));
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

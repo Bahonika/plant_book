@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'screen_button.dart';
 import '../screens/about.dart';
 
 class MainDrawer extends StatelessWidget {
+  const MainDrawer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -19,7 +20,7 @@ class MainDrawer extends StatelessWidget {
               currentAccountPicture: Image.asset(
                 "lib/assets/logo.png",
               ),
-              currentAccountPictureSize: Size(80, 80),
+              currentAccountPictureSize: const Size(80, 80),
               accountName: Text(
                   "Проект Цифровой гербарий,\nсозданный студентами МАГУ",
                   style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
@@ -30,21 +31,21 @@ class MainDrawer extends StatelessWidget {
           // Buttons with link to info about and our site
           Column(
             children: [
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size(MediaQuery.of(context).size.width * 0.6, 45)),
-                child: Text("О нас"),
+                child: const Text("О нас"),
                 onPressed: () => Navigator.push(
                     context, MaterialPageRoute(builder: (context) => About())),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       minimumSize:
                           Size(MediaQuery.of(context).size.width * 0.6, 45)),
                   onPressed: null,
-                  child: Text("Наш сайт"))
+                  child: const Text("Наш сайт"))
             ],
           ),
     ]));

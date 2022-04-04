@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:polar_sun/screens/park_view.dart';
+import 'package:polar_sun/views/park_view.dart';
 
 import '../data/entities/park.dart';
 
