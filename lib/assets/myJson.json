@@ -1,0 +1,199 @@
+[
+  {
+    "id": 89,
+    "name": "Ива козья",
+    "nameLat": "Salix caprea",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область, Кольский район, село Ретинское",
+    "habitat": "Задернованный склон",
+    "date": "26.06.2017",
+    "collector": "Джафарова Айнур",
+    "determinate": "Джафарова Айнур",
+    "general": " "
+  },
+  {
+    "id": 93,
+    "name": "Ива черниковидная",
+    "nameLat": "Salix myrtilloides",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область, Ловозерский район",
+    "habitat": "по ручью",
+    "date": "",
+    "collector": "",
+    "determinate": "",
+    "general": " "
+  },
+  {
+    "id": 94,
+    "name": "Ива сетчатая",
+    "nameLat": "Salix reticulata",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область , Хибинский горный массив, на берегу ручья, около перевела Юкспоррлак",
+    "habitat": "Тундровая луговина",
+    "date": "03.07.2000",
+    "collector": "Н.Ткач",
+    "determinate": "С.Колбеева",
+    "general": " "
+  },
+  {
+    "id": 95,
+    "name": "Ива сетчатая",
+    "nameLat": "Salix reticulata",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область , Хибинский горный массив, гора Кукисвумчорр",
+    "habitat": "Высокогорьe",
+    "date": "16.06.2001",
+    "collector": "2БЭ",
+    "determinate": "Е.Зименко, О.Кузнецова, В.Михалевич",
+    "general": " "
+
+  },
+  {
+    "id": 1000,
+    "name": "Ива филиколистная",
+    "nameLat": "Salix phylicifolia",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область , Кольский район, село Ретинское",
+    "habitat": "Задернованный склон",
+    "date": "26.06.2017",
+    "collector": "К.Н.Шадрина",
+    "determinate": "К.Н.Шадрина",
+    "general": " "
+
+  },
+  {
+    "id": 96,
+    "name": "Ива тундровая",
+    "nameLat": "Salix caprea",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область, Ловозерский горный массив, верховье реки",
+    "habitat": "Кустарничково-лишайниковая тундра",
+    "date": "20.08.1982",
+    "collector": "Т.В.Хорошунова",
+    "determinate": "Т.В.Хорошунова",
+    "general": " "
+
+  },
+  {
+    "id": 97,
+    "name": "Ива мохнатая",
+    "nameLat": "Salix lanata",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область , Хибинский горный массив, гора Юкспор",
+    "habitat": "Скальные ложбины временных водотоках на крупных склонах",
+    "date": "28.08.1936",
+    "collector": "М.Х.Качурин",
+    "determinate": "М.Х.Качурин",
+    "general": " "
+
+  },
+  {
+    "id": 98,
+    "name": "Ива козья",
+    "nameLat": "Salix caprea",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область, окр. Станции Апатиты , оз. Имандра, заросли ив по дороге",
+    "habitat": "",
+    "date": "13.05.1975",
+    "collector": "М.И. Сердюк, Т.В. Хорошунова , А.А. Скиткина",
+    "determinate": "М.И. Сердюк, Т.В. Хорошунова , А.А. Скиткина",
+    "general": " "
+  },
+  {
+    "id": 89,
+    "name": "Ива полярная",
+    "nameLat": "Salix Polaris Wshl.",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область, Хибинский горный массив. Окрестности Расвумчоррского рудника, дорожка к перевалу Юкспорлак",
+    "habitat": "Горная кустарничковая тундра",
+    "date": "11.07.1985",
+    "collector": "А.А. Похилько , Т.В. Хорошунова",
+    "determinate": "А.А. Похилько",
+    "general": " "
+
+  },
+  {
+    "id": 100,
+    "name": "Тополь дрожащий, Осина",
+    "nameLat": "Populus tremula",
+    "family": "Salicaceae - Ивовые",
+    "place": "Мурманская область, г. Мурманск, Первомайский округ, берег ручья Глубокий",
+    "habitat": "Редколесье на берегу ручья",
+    "date": "19.06.2002",
+    "collector": "Н.В. Ткач",
+    "determinate": "Н.В. Ткач",
+    "general": " "
+  },
+  {
+    "id": 90,
+    "name": "Гвоздика пышная",
+    "nameLat": "Dianthus superbus",
+    "family": "Гвозди́чные - Caryophyllaceae",
+    "place": "Местность Серебрянской Дороги",
+    "habitat": "Луга, Опушки",
+    "date": "17.07.2006",
+    "collector": "Ахмадова К.Д",
+    "determinate": "Калмыкова Н.А",
+    "general": " "
+  },
+  {
+    "id": 85,
+    "name": "Звездчатка дубравная",
+    "nameLat": "Stellaria nemorum",
+    "family": "Гвоздичные (Caryophyllaceae)",
+    "place": "Хибины, Кировск, дорога к горе Кукисвумчорр",
+    "habitat": "Луга",
+    "date": "05.07.2000",
+    "collector": "Субботина , Баева, Корсун, Хаминская",
+    "determinate": "Хаминская, Корсун, Баева, Субботина",
+    "general": " "
+  },
+  {
+    "id": 80,
+    "name": "Звездчатка злаковая",
+    "nameLat": "Stellaria graminea",
+    "family": "Гвозди́чные (Caryophyllaceae)",
+    "place": "г. Мурманск , участок железной дороги в Первомайском округе",
+    "habitat": "Заросли у железной дороги",
+    "date": "09.09.2001",
+    "collector": "Ткач Н.В",
+    "determinate": "Ткач Н.В",
+    "general": " "
+  },
+  {
+    "id": 101,
+    "name": "Ясколка гладкая",
+    "nameLat": "Cerastium glabratum",
+    "family": "Гвозди́чные (Caryophyllaceae)",
+    "place": "Кировский район",
+    "habitat": "берега пресноводных водоемов, скалы и каменные осыпи, тундры.",
+    "date": "20.06.2001",
+    "collector": "Галбианова Р.",
+    "determinate": "Галбианова Р.",
+    "general": " "
+  },
+  {
+    "id": 81,
+    "name": "Смолевка бестебельная",
+    "nameLat": "Silene acaulis L.",
+    "family": "Гвозди́чные (Caryophyllaceae)",
+    "place": "Хибинский горный массив, окрестности Расвумчоррского рудника, дорога к перевалу Юкспорлак",
+    "habitat": "горная кустарничковая тундра.",
+    "date": "11.07.1985",
+    "collector": "Похилько А.А., Хорошунова Т.В.",
+    "determinate": "Похилько А.А.",
+    "general": " "
+  },
+  {
+    "id": 111,
+    "name": "Песчанка ложнохолодная",
+    "nameLat": "Arenaria pseudofrigida (Ostenf. Et Dahl) Juz. Ex Schischk",
+    "family": "Гвозди́чные (Caryophyllaceae)",
+    "place": "Хибинский горный массив, гора Расвумчорр",
+    "habitat": " ",
+    "date": "27.07.1948",
+    "collector": "Качурин М.Х",
+    "determinate": "Качурин М.Х",
+    "general": " "
+  }
+]
