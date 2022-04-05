@@ -31,12 +31,6 @@ class _HerbState extends State<Herb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            "Цифровой гербарий",
-          ),
-        ),
         body: ListView.builder(
             itemCount: plants.length,
             itemBuilder: (BuildContext context, int i) {

@@ -5,6 +5,7 @@ enum DeviceScreenType {
   tablet,
   desktop
 } // Device screen types
+
 DeviceScreenType getDeviceType(MediaQueryData mediaQuery) {
   double deviceWidth = mediaQuery.size.width;
 

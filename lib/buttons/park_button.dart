@@ -6,13 +6,13 @@ import '../data/entities/park.dart';
 class ParkButton extends StatelessWidget {
   final Park park;
 
-  ParkButton(this.park);
+  const ParkButton(this.park, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.135,
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             primary: Theme.of(context).colorScheme.primaryContainer),
