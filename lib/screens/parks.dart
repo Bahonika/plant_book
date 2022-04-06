@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:polar_sun/data/entities/park.dart';
-import 'package:polar_sun/main.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 import '../buttons/park_button.dart';
 

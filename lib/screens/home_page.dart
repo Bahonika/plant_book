@@ -5,6 +5,8 @@ import 'package:polar_sun/templates/custom_tab_bar.dart';
 import 'package:polar_sun/utils/content_view.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 
+import 'home.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ class _HomePageState extends State<HomePage>
         tab: const CustomTab(
           title: "Главная",
         ),
-        content: const Center()),
+        content: const Home()),
     ContentView(
         tab: const CustomTab(
           title: "О нас",
@@ -60,13 +62,27 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
         endDrawer: drawer(),
         key: scaffoldKey,
-        body: LayoutBuilder(builder: (context, constraints) {
-          if (deviceType == DeviceScreenType.desktop) {
-            return desktopView();
-          } else {
-            return mobileView();
-          }
-        }));
+        body: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(96, 154, 76, 0.5),
+              ),
+              BoxShadow(
+                color: Theme.of(context).backgroundColor,
+                spreadRadius: -12.0,
+                blurRadius: 150.0,
+              ),
+            ],
+          ),
+          child: LayoutBuilder(builder: (context, constraints) {
+            if (deviceType == DeviceScreenType.desktop) {
+              return desktopView();
+            } else {
+              return mobileView();
+            }
+          }),
+        ));
   }
 
   Widget desktopView() {
@@ -107,12 +123,12 @@ class _HomePageState extends State<HomePage>
                     color: Colors.grey,
                   ),
                 ])),
-            // Expanded(
-            //   child: TabBarView(
-            //     controller: tabController,
-            //     children: contentViews.map((e) => e.content).toList(),
-            //   ),
-            // )
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: contentViews.map((e) => e.content).toList(),
+              ),
+            )
           ],
         ),
       ),

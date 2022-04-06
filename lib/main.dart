@@ -35,24 +35,10 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-
     return MaterialApp(
-      theme: themeData,
-      debugShowCheckedModeBanner: false,
-      home: const HomePage()
-        // Column(
-        //   children: [
-        //     const MainMenu(),
-        //     Expanded(
-        //         child: Align(
-        //             alignment: FractionalOffset.bottomCenter,
-        //             child: Image.asset(
-        //               "lib/assets/sprouts.png",
-        //               fit: BoxFit.fitWidth,
-        //             )))
-        //   ],
-        // ),
-      );
+        theme: themeData,
+        debugShowCheckedModeBanner: false,
+        home: const HomePage());
     // );
   }
 }
