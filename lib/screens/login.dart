@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:polar_sun/screens/home_page.dart';
 
 class Login extends StatefulWidget {
@@ -25,8 +27,8 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text("а в т о р и з а ц и я",
-                    style: TextStyle(fontSize: 50)),
+                Text("АВТОРИЗАЦИЯ",
+                    style: GoogleFonts.montserrat(fontSize: 48, fontWeight: FontWeight.w700, letterSpacing: 10)),
                 Container(
                   height: 46,
                   width: 390,
@@ -102,6 +104,13 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
+          SizedBox(
+            width: 20,
+          ),
+          SizedBox(
+            height: 600,
+            child: Image.asset('lib/assets/splash.png', fit: BoxFit.fitHeight,)
+          )
         ],
       ),
     );

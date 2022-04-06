@@ -57,7 +57,6 @@ class _HomePageState extends State<HomePage>
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     var deviceType = getDeviceType(MediaQuery.of(context));
-    print(deviceType);
 
     return Scaffold(
         appBar: AppBar(title: const Text("Главная")),
