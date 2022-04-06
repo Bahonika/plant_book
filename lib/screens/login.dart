@@ -14,11 +14,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Вход"),
-      ),
+
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             height: 390,
@@ -92,8 +91,8 @@ class _LoginState extends State<Login> {
                           onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomePage())),
-                          child: const Text("Войти как гость", style: TextStyle(
+                                  builder: (context) => const HomePage())),
+                          child: const Text("Оформить подписку", style: TextStyle(
                             fontSize: 24
                           ),),
                         ),
@@ -104,7 +103,7 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           SizedBox(

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:polar_sun/screens/login.dart';
 import 'package:polar_sun/templates/custom_tab.dart';
 import 'package:polar_sun/templates/custom_tab_bar.dart';
 import 'package:polar_sun/utils/content_view.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
-
-import 'herb.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,10 +32,10 @@ class _HomePageState extends State<HomePage>
         content: const Center()),
     ContentView(
         tab: const CustomTab(
-          title: "Гербарий",
+          title: "Вход",
         ),
         content: const Center(
-          child: Herb(),
+          child: Login(),
         )),
   ];
 
@@ -59,9 +58,7 @@ class _HomePageState extends State<HomePage>
     var deviceType = getDeviceType(MediaQuery.of(context));
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Главная")),
-        endDrawer:
-            deviceType == DeviceScreenType.mobile ? drawer() : SizedBox(),
+        endDrawer: drawer(),
         key: scaffoldKey,
         body: LayoutBuilder(builder: (context, constraints) {
           if (deviceType == DeviceScreenType.desktop) {
@@ -99,12 +96,23 @@ class _HomePageState extends State<HomePage>
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: contentViews.map((e) => e.content).toList(),
-              ),
-            )
+            Container(
+                color: Theme.of(context).colorScheme.primary,
+                width: MediaQuery.of(context).size.width,
+                height: 65,
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  IconButton(
+                    onPressed: () => scaffoldKey.currentState!.openEndDrawer(),
+                    icon: const Icon(Icons.menu_rounded),
+                    color: Colors.grey,
+                  ),
+                ])),
+            // Expanded(
+            //   child: TabBarView(
+            //     controller: tabController,
+            //     children: contentViews.map((e) => e.content).toList(),
+            //   ),
+            // )
           ],
         ),
       ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:polar_sun/screens/login.dart';
-import 'package:polar_sun/screens/main_menu.dart';
-import 'package:polar_sun/templates/main_drawer.dart';
+import 'package:polar_sun/screens/home_page.dart';
 import 'package:polar_sun/utils/theme_data.dart';
 
 void main() {
@@ -41,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: themeData,
       debugShowCheckedModeBanner: false,
-      home: const Login()
+      home: const HomePage()
         // Column(
         //   children: [
         //     const MainMenu(),
