@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:polar_sun/screens/home_page.dart';
+import 'package:polar_sun/screens/login.dart';
 import 'package:polar_sun/utils/theme_data.dart';
 
 void main() {
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         theme: themeData,
         debugShowCheckedModeBanner: false,
-        home: const HomePage());
+        home: const Scaffold(body: Center(child: Login())));
     // );
   }
 }

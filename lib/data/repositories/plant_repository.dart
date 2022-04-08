@@ -6,7 +6,7 @@ import 'package:polar_sun/data/repositories/abstract/basic.dart';
 class PlantRepository extends BasicRepository<Plant>{
 
   @override
-  final String apiEndpoint = "plant/";
+  final String apiEndpoint = "plant";
 
   @override
   Plant fromJson(json) {

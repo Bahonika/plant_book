@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polar_sun/screens/herb.dart';
 import 'package:polar_sun/screens/login.dart';
 import 'package:polar_sun/templates/custom_tab.dart';
 import 'package:polar_sun/templates/custom_tab_bar.dart';
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   var scaffoldKey = GlobalKey<ScaffoldState>();
+
   late double screenHeight;
   late double screenWidth;
   late TabController tabController;
@@ -32,13 +34,16 @@ class _HomePageState extends State<HomePage>
           title: "О нас",
         ),
         content: const Center()),
+    // ContentView(
+    //     tab: const CustomTab(
+    //       title: "Вход",
+    //     ),
+    //     content: const Login()),
     ContentView(
         tab: const CustomTab(
-          title: "Вход",
+          title: "Гербарий",
         ),
-        content: const Center(
-          child: Login(),
-        )),
+        content: const Herb()),
   ];
 
   @override
@@ -65,7 +70,7 @@ class _HomePageState extends State<HomePage>
         body: Container(
           decoration: BoxDecoration(
             boxShadow: [
-              BoxShadow(
+              const BoxShadow(
                 color: Color.fromRGBO(96, 154, 76, 0.5),
               ),
               BoxShadow(
