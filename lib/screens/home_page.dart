@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polar_sun/screens/about.dart';
 import 'package:polar_sun/screens/herb.dart';
 import 'package:polar_sun/screens/login.dart';
 import 'package:polar_sun/templates/custom_tab.dart';
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage>
         tab: const CustomTab(
           title: "О нас",
         ),
-        content: const Center()),
+        content: const About()),
     // ContentView(
     //     tab: const CustomTab(
     //       title: "Вход",
