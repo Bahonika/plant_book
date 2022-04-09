@@ -151,7 +151,7 @@ class _LoginState extends State<Login> {
                     loginTextField(),
                     passwordTextField(),
                     loginButton(),
-                    subscribeButton()
+                    subscribeButton(),
                   ])),
           const SizedBox(
             width: 20,

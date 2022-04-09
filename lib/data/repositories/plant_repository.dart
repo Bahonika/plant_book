@@ -1,5 +1,3 @@
-
-
 import 'package:polar_sun/data/entities/plant.dart';
 import 'package:polar_sun/data/repositories/abstract/basic.dart';
 

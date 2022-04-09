@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:polar_sun/screens/herb.dart';
-import 'package:polar_sun/screens/login.dart';
 import 'package:polar_sun/templates/custom_tab.dart';
 import 'package:polar_sun/templates/custom_tab_bar.dart';
 import 'package:polar_sun/utils/content_view.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 
+import 'add.dart';
 import 'home.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,16 +34,16 @@ class _HomePageState extends State<HomePage>
           title: "О нас",
         ),
         content: const Center()),
-    // ContentView(
-    //     tab: const CustomTab(
-    //       title: "Вход",
-    //     ),
-    //     content: const Login()),
     ContentView(
         tab: const CustomTab(
           title: "Гербарий",
         ),
         content: const Herb()),
+    ContentView(
+        tab: const CustomTab(
+          title: "Добавить",
+        ),
+        content: const Add()),
   ];
 
   @override

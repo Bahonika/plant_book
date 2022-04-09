@@ -39,7 +39,7 @@ class AuthorizedUser extends User {
   // final String email;
   final String name;
   final String surname;
-  // final String token;
+  final String token;
 
   AuthorizedUser(
       {required String role,
@@ -47,8 +47,7 @@ class AuthorizedUser extends User {
       // required this.email,
       required this.name,
       required this.surname,
-      // required this.token
-      })
+      required this.token})
       : super(role: role);
 
   factory AuthorizedUser.fromJson(Map<String, dynamic> json) {
@@ -57,8 +56,8 @@ class AuthorizedUser extends User {
         id: json["id"],
         // email: utf8convert(json["email"]),
         name: utf8convert(json["first_name"]),
-        surname: utf8convert(json["last_name"]));
-        // token: utf8convert(json["token"]));
+        surname: utf8convert(json["last_name"]),
+        token: utf8convert(json["session"]));
   }
 
   @override
@@ -67,14 +66,14 @@ class AuthorizedUser extends User {
     await prefs.remove('token');
     await prefs.remove('name');
     await prefs.remove('surname');
-    await prefs.remove('email');
+    // await prefs.remove('email');
     await prefs.remove('id');
   }
 
   @override
   void save(SharedPreferences prefs) async {
     super.save(prefs);
-    // await prefs.setString('token', token);
+    await prefs.setString('token', token);
     await prefs.setString('name', name);
     await prefs.setString('surname', surname);
     // await prefs.setString('email', email);
@@ -89,11 +88,10 @@ Future<User> restoreFromSharedPrefs(SharedPreferences prefs) async {
     return GuestUser();
   }
 
-  var token = prefs.get('token') as String?;
   var name = prefs.get('name') as String?;
   var surname = prefs.get('surname') as String?;
-  var email = prefs.get('email') as String?;
   var id = prefs.get('id') as int?;
+  var token = prefs.get('token') as String?;
 
   return AuthorizedUser(
       role: role,
@@ -101,6 +99,5 @@ Future<User> restoreFromSharedPrefs(SharedPreferences prefs) async {
       // email: email!,
       name: name!,
       surname: surname!,
-      // token: token!
-  );
+      token: token!);
 }

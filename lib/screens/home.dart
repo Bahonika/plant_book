@@ -54,43 +54,36 @@ class _HomeState extends State<Home> {
             ? 30
             : 16;
 
-    Widget homePageButton(
-        String assetName, String buttonText) {
+    Widget homePageButton(String assetName, String buttonText) {
       return SizedBox(
-        height: MediaQuery.of(context).size.shortestSide * heightFactor,
-        width: MediaQuery.of(context).size.longestSide * widthFactor,
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).colorScheme.primaryContainer,
-                elevation: 2),
-            onPressed: () {
-              print("hello");
-            },
-            child: Row(
-              children: [
+          height: MediaQuery.of(context).size.shortestSide * heightFactor,
+          width: MediaQuery.of(context).size.longestSide * widthFactor,
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).colorScheme.primaryContainer,
+                  elevation: 2),
+              onPressed: () {},
+              child: Row(children: [
                 Image.asset(assetName),
                 Flexible(
-                  child: Text(
-                    buttonText,
-                    style: TextStyle(
-                      fontSize: fontSize,
-                    ),
-                    softWrap: true,
+                    child: Text(
+                  buttonText,
+                  style: TextStyle(
+                    fontSize: fontSize,
                   ),
-                )
-              ],
-            )),
-      );
+                  softWrap: true,
+                ))
+              ])));
     }
 
     Widget herbariumButton() {
-      return homePageButton("lib/assets/herbarium.png",
-          "Цифровой гербарий МАГУ");
+      return homePageButton(
+          "lib/assets/herbarium.png", "Цифровой гербарий МАГУ");
     }
 
     Widget gardenButton() {
-      return homePageButton("lib/assets/flora.png",
-          "Заповедники и ботанические сады");
+      return homePageButton(
+          "lib/assets/flora.png", "Заповедники и ботанические сады");
     }
 
     Widget mobileView() {

@@ -23,6 +23,7 @@ class AuthUser extends Api{
       'password': password});
     var status = response.statusCode;
     if(response.statusCode == 200){
+      print(response.headers);
       return AuthorizedUser.fromJson(convert.jsonDecode(response.body));
     } else if(response.statusCode == 400){
       throw AuthorizationException();

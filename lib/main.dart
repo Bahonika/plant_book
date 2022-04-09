@@ -40,6 +40,5 @@ class _MyAppState extends State<MyApp> {
         theme: themeData,
         debugShowCheckedModeBanner: false,
         home: const Scaffold(body: Center(child: Login())));
-    // );
   }
 }
