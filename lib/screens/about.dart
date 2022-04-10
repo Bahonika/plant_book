@@ -20,7 +20,7 @@ class About extends StatelessWidget {
 
     Widget aboutTeamAlias() {
       return Padding(
-        padding: EdgeInsets.symmetric(vertical: 36),
+        padding: const EdgeInsets.symmetric(vertical: 36),
         child: Text(
           "Наша команда".toUpperCase(),
           style: GoogleFonts.montserrat(

@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:polar_sun/data/entities/user.dart';
 import 'package:polar_sun/data/repositories/auth_user.dart';
-import 'package:polar_sun/screens/home.dart';
 import 'package:polar_sun/screens/home_page.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginPageState extends State<LoginPage> {
   late TextEditingController passwordController;
   late TextEditingController loginController;
 
@@ -34,7 +33,8 @@ class _LoginState extends State<Login> {
       user = await authUser.auth(
           loginController.value.text, passwordController.value.text);
       var prefs = await SharedPreferences.getInstance();
-      user!.save(prefs);
+      user?.save(prefs);
+      print(user);
       setState(() {
         isAuthFailed = false;
       });
@@ -42,8 +42,8 @@ class _LoginState extends State<Login> {
           context,
           MaterialPageRoute(
               builder: (context) => WillPopScope(
-                  onWillPop: () async => false, child: HomePage())));
-    } on AuthorizationException catch (e) {
+                  onWillPop: () async => false, child: HomePage(user: user!))));
+    } on AuthorizationException {
       setState(() {
         isAuthFailed = true;
       });
@@ -63,10 +63,11 @@ class _LoginState extends State<Login> {
 
     Widget splash() {
       return SizedBox(
+          width: MediaQuery.of(context).size.longestSide * 0.3,
           height: MediaQuery.of(context).size.longestSide * 0.3,
           child: Image.asset(
             'lib/assets/splash.png',
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fitWidth,
           ));
     }
 
@@ -80,9 +81,9 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(20)),
               elevation: 1),
           onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const HomePage())),
+              MaterialPageRoute(builder: (context) => HomePage(user: GuestUser()))),
           child: const Text(
-            "Оформить подписку",
+            "Войти как гость",
             style: TextStyle(fontSize: 24),
           ),
         ),
@@ -191,8 +192,10 @@ class _LoginState extends State<Login> {
       );
     }
 
-    return getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
-        ? mobileView()
-        : desktopView();
+    return Scaffold(
+      body: getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
+          ? mobileView()
+          : desktopView(),
+    );
   }
 }

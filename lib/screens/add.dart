@@ -92,7 +92,9 @@ class _AddState extends State<Add> {
         DatePickerDialog(
             initialDate: DateTime.now(),
             firstDate: DateTime(2000),
-            lastDate: DateTime(2030)),
+            lastDate: DateTime(2030),
+
+        ),
         ElevatedButton(
             onPressed: pickPhoto,
             child: const Padding(
@@ -107,7 +109,7 @@ class _AddState extends State<Add> {
             ? kIsWeb
                 ? Text(
                     "Выбран файл " + photo!.path,
-                    style: TextStyle(fontSize: 15),
+                    style: const TextStyle(fontSize: 15),
                   )
                 : Container(
                     width: 100,

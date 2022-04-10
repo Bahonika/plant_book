@@ -18,17 +18,16 @@ class AuthUser extends Api{
   final String apiEndpoint = "login";
 
   Future<AuthorizedUser> auth(String username, String password) async{
-    var uri = Uri.https(Api.siteRoot, apiPath());
+    var uri = Uri.http(Api.siteRoot, apiPath());
     var response = await http.post(uri, body: {'username': username,
       'password': password});
     var status = response.statusCode;
     if(response.statusCode == 200){
-      print(response.headers);
+      print(convert.jsonDecode((response.body)));
       return AuthorizedUser.fromJson(convert.jsonDecode(response.body));
     } else if(response.statusCode == 400){
       throw AuthorizationException();
     }
     throw HttpException("can't access $uri Status: $status");
   }
-
 }
