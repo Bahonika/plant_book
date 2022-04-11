@@ -101,15 +101,13 @@ class _HomePageState extends State<HomePage>
               ),
             ],
           ),
-          child: Expanded(
-            child: LayoutBuilder(builder: (context, constraints) {
-              if (deviceType == DeviceScreenType.desktop) {
-                return desktopView();
-              } else {
-                return mobileView();
-              }
-            }),
-          ),
+          child: LayoutBuilder(builder: (context, constraints) {
+            if (deviceType == DeviceScreenType.desktop) {
+              return desktopView();
+            } else {
+              return mobileView();
+            }
+          }),
         ));
   }
 

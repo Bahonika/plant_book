@@ -14,7 +14,7 @@ abstract class BasicRepository<T> extends Api {
 
   Future<List<T>> getAll(
       {Map<String, String>? queryParams, AuthorizedUser? user}) async {
-    var uri = Uri.http(Api.siteRoot, apiPath(), queryParams);
+    var uri = Uri.https(Api.siteRoot, apiPath(), queryParams);
     var response = user == null
         ? await http.get(uri)
         : await http

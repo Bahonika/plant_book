@@ -112,7 +112,7 @@ class About extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.2,
-                  vertical: 20),
+                  vertical: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
