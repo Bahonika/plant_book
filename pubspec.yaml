@@ -43,7 +43,7 @@ dependencies:
   dio: ^4.0.6
   file_picker: ^4.5.1
   image_picker: ^0.8.5
-
+  footer: ^0.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

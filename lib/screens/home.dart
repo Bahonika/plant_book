@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
     Widget biodiversityAlias() {
       return Text("Биоразнообразие северной природы",
           style: GoogleFonts.montserrat(
-              fontWeight: FontWeight.w500, fontSize: 36, letterSpacing: 7));
+              fontWeight: FontWeight.w500, fontSize: MediaQuery.of(context).size.longestSide * 0.018  , letterSpacing: 7));
     }
 
     double widthFactor =
@@ -87,33 +87,29 @@ class _HomeState extends State<Home> {
     }
 
     Widget mobileView() {
-      return Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Image.asset('lib/assets/home_screen.png'),
-          ),
-          Container(
+      return Stack(children: [
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Image.asset('lib/assets/home_screen.png'),
+        ),
+        Container(
             padding: const EdgeInsets.symmetric(horizontal: 60),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                polarSunAlias(),
-                biodiversityAlias(),
-                const SizedBox(
-                  height: 93,
-                ),
-                herbariumButton(),
-                const SizedBox(
-                  height: 36,
-                ),
-                gardenButton(),
-              ],
-            ),
-          ),
-        ],
-      );
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  polarSunAlias(),
+                  biodiversityAlias(),
+                  const SizedBox(
+                    height: 93,
+                  ),
+                  herbariumButton(),
+                  const SizedBox(
+                    height: 36,
+                  ),
+                  gardenButton(),
+                ]))
+      ]);
     }
 
     Widget desktopView() {

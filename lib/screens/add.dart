@@ -63,21 +63,19 @@ class _AddState extends State<Add> {
           collectorController.text == "" ||
           determinateController.text == "") {
         print("Заполните все поля");
-      } else
-        if (photo == null){
-          print("Нет фото");
-        }
-
+      } else if (photo == null) {
+        print("Нет фото");
+      }
     }
 
     return ListView(
       padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.1, vertical: 20),
+          horizontal: MediaQuery.of(context).size.width * 0.2, vertical: 20),
       children: [
         Center(
           child: Text("Добавление растения",
               style: GoogleFonts.montserrat(
-                fontSize: 48,
+                fontSize: MediaQuery.of(context).size.longestSide * 0.025,
                 fontWeight: FontWeight.w700,
                 color: const Color.fromRGBO(14, 53, 23, 1),
                 letterSpacing: 7,
@@ -90,10 +88,9 @@ class _AddState extends State<Add> {
         addTextField("Кто собрал", collectorController),
         addTextField("Кто определил", determinateController),
         DatePickerDialog(
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2030),
-
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2030),
         ),
         ElevatedButton(
             onPressed: pickPhoto,

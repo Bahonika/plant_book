@@ -24,6 +24,8 @@ class _HerbState extends State<Herb> {
       id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
   static Plant plant6 = Plant(
       id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
+  static Plant plant7 = Plant(
+      id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
 
   List<Plant> plants = [
     plant1,
@@ -32,6 +34,7 @@ class _HerbState extends State<Herb> {
     plant4,
     plant5,
     plant6,
+    plant7,
   ];
 
   var repository = PlantRepository();
@@ -51,37 +54,35 @@ class _HerbState extends State<Herb> {
   @override
   Widget build(BuildContext context) {
     Widget desktopPlant(Plant plant) {
-      return Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.04, vertical: 18),
-        child: Container(
-          height: 250,
-          width: 114,
-          padding: const EdgeInsets.all(27),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-          child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PlantView(plant: plant)));
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        plant.photo,
-                        fit: BoxFit.fitHeight,
-                      )),
-                  Text(
-                    plant.name,
-                    style: const TextStyle(fontSize: 20, color: Colors.white60),
-                  )
-                ],
-              )),
-        ),
+      return Container(
+        height: MediaQuery.of(context).size.height * 0.25,
+        width: MediaQuery.of(context).size.width * 0.15,
+        margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+        child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlantView(plant: plant)));
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      plant.photo,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      fit: BoxFit.fitHeight,
+                    )),
+                Text(
+                  plant.name,
+                  style: const TextStyle(fontSize: 20, color: Colors.white60),
+                )
+              ],
+            )),
       );
     }
 
@@ -99,13 +100,12 @@ class _HerbState extends State<Herb> {
             },
             child: Row(
               children: [
-                SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    child: Image.asset(
-                      plant.photo,
-                      fit: BoxFit.contain,
-                    )),
+                Image.asset(
+                  plant.photo,
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  fit: BoxFit.fitWidth,
+                ),
                 Text(plant.name)
               ],
             )),
@@ -122,7 +122,8 @@ class _HerbState extends State<Herb> {
 
     Widget desktopView() {
       return GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 200),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.2),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3),
           itemCount: plants.length,

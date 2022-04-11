@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:footer/footer.dart';
+import 'package:footer/footer_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 
@@ -11,7 +13,7 @@ class About extends StatelessWidget {
       return Text(
         "О проекте".toUpperCase(),
         style: GoogleFonts.montserrat(
-          fontSize: 48,
+          fontSize: MediaQuery.of(context).size.longestSide * 0.025,
           fontWeight: FontWeight.w700,
           color: const Color.fromRGBO(14, 53, 23, 1),
           letterSpacing: 7,
@@ -19,170 +21,213 @@ class About extends StatelessWidget {
       );
     }
 
-    Widget aboutTeamAlias() {
+    Widget teamAlias() {
       return Padding(
-        padding: EdgeInsets.symmetric(vertical: getDeviceType(MediaQuery.of(context)) == DeviceScreenType.desktop
-            ? 36
-            : 20),
-        child: Text(
-          "Команда".toUpperCase(),
-          style: GoogleFonts.montserrat(
-            fontSize: getDeviceType(MediaQuery.of(context)) == DeviceScreenType.desktop
-                ? 48
-                : 30,
-            fontWeight: FontWeight.w700,
-            color: const Color.fromRGBO(14, 53, 23, 1),
-            letterSpacing: 7,
-          ), textAlign: getDeviceType(MediaQuery.of(context)) == DeviceScreenType.desktop
-            ? TextAlign.start
-            : TextAlign.center));
+          padding: EdgeInsets.symmetric(
+              vertical: getDeviceType(MediaQuery.of(context)) ==
+                      DeviceScreenType.desktop
+                  ? MediaQuery.of(context).size.longestSide * 0.018
+                  : 20),
+          child: Text("Команда".toUpperCase(),
+              style: GoogleFonts.montserrat(
+                fontSize: getDeviceType(MediaQuery.of(context)) ==
+                        DeviceScreenType.desktop
+                    ? MediaQuery.of(context).size.longestSide * 0.025
+                    : 30,
+                fontWeight: FontWeight.w700,
+                color: const Color.fromRGBO(14, 53, 23, 1),
+                letterSpacing: 7,
+              ),
+              textAlign: getDeviceType(MediaQuery.of(context)) ==
+                      DeviceScreenType.desktop
+                  ? TextAlign.start
+                  : TextAlign.center));
     }
 
-    Widget memberTeamField(String textImageURL, String name, String role) {
+    Widget desktopMemberTeamField(
+        String textImageURL, String name, String role) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 36),
         child: Column(
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.circular(300),
-                child: Image.asset(textImageURL, height: 260, width: 260)),
-            Text(name,
-                style: GoogleFonts.montserrat(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 5,
-                )),
-            Text(role,
-                style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: const Color.fromRGBO(84, 84, 84, 1),
-                ))
-          ],
-        ),
-      );
-    }
-
-    Widget memberTeamMobileField(
-        String textImageURL, String name, String role) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(300),
-                child: Image.asset(textImageURL, height: 150, width: 150)),
-            Column(
+                // child: Image.asset(textImageURL, height: 260, width: 260)),
+                child: Image.asset(textImageURL,
+                    height: MediaQuery.of(context).size.longestSide * 0.13,
+                    width: MediaQuery.of(context).size.longestSide * 0.13)),
+            Flex(
+              direction: Axis.vertical,
               children: [
                 Text(name,
                     style: GoogleFonts.montserrat(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 3)),
+                      // fontSize: 24,
+                      fontSize: MediaQuery.of(context).size.longestSide * 0.013,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 5,
+                    )),
                 Text(role,
                     style: GoogleFonts.montserrat(
-                      fontSize: 16,
+                      fontSize: MediaQuery.of(context).size.longestSide * 0.011,
                       fontWeight: FontWeight.w400,
                       color: const Color.fromRGBO(84, 84, 84, 1),
                     ))
               ],
-            ),
+            )
           ],
         ),
       );
     }
 
+    Widget mobileMemberTeamField(
+        String textImageURL, String name, String role) {
+      return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            ClipRRect(
+                borderRadius: BorderRadius.circular(300),
+                child: Image.asset(textImageURL, height: 150, width: 150)),
+            Flexible(
+                child: Column(children: [
+              Text(name,
+                  style: GoogleFonts.montserrat(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 3)),
+              Text(role,
+                  style: GoogleFonts.montserrat(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: const Color.fromRGBO(84, 84, 84, 1),
+                  ))
+            ]))
+          ]));
+    }
+
     Widget desktopView() {
-      return ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 374, vertical: 80),
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          aboutProjectAlias(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  "\"Полярное солнце\" - это проект направленный"
-                  " на биоразнообразие мурманской области."
-                  "\n\nНа сайте размещён цифровой гербарий МАГУ,"
-                  " включающий коллекцию растений, произрастающих на территории"
-                  " Мурманской области и собранных исследователями нашего "
-                  "вуза во время экспедиций.",
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 24,
-                      letterSpacing: 3),
-                ),
+      return FooterView(
+          flex: 10,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.2,
+                  vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  aboutProjectAlias(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          "\"Полярное солнце\" - это проект направленный"
+                          " на биоразнообразие мурманской области."
+                          "\n\nНа сайте размещён цифровой гербарий МАГУ,"
+                          " включающий коллекцию растений, произрастающих на территории"
+                          " Мурманской области и собранных исследователями нашего "
+                          "вуза во время экспедиций.",
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w400,
+                              fontSize:
+                                  MediaQuery.of(context).size.longestSide *
+                                      0.012,
+                              letterSpacing: 3),
+                        ),
+                      ),
+                      Image.asset('lib/assets/logo.png',
+                          height:
+                              MediaQuery.of(context).size.longestSide * 0.23,
+                          width:
+                              MediaQuery.of(context).size.longestSide * 0.23),
+                    ],
+                  ),
+                  teamAlias(),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          "Проект был выполнен студентами Мурманского Арктического "
+                          "государственного университета в рамках дисциплин "
+                          "\"Университетский проект\" и \"Проект направленности (профиля)\".",
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w400,
+                              fontSize:
+                                  MediaQuery.of(context).size.longestSide *
+                                      0.012,
+                              letterSpacing: 3),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      desktopMemberTeamField('lib/assets/Baginskii.jpg',
+                          'Багинский Денис', 'Программист'),
+                      desktopMemberTeamField('lib/assets/Markova.jpg',
+                          'Маркова Варвара', 'Программист, дизайнер'),
+                      desktopMemberTeamField('lib/assets/Projerin.jpg',
+                          'Прожерин Дмитрий', 'Программист'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      desktopMemberTeamField('lib/assets/Surovets.jpg',
+                          'Суровец Валерия', 'Биолог'),
+                      desktopMemberTeamField(
+                          'lib/assets/Moiseeva.jpg', 'Моисеева Нина', 'Биолог'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      desktopMemberTeamField('lib/assets/Baginskii.jpg',
+                          'Мирошников Влад', 'Программист'),
+                      desktopMemberTeamField('lib/assets/Projerin.jpg',
+                          'Андреев Матвей', 'Программист'),
+                    ],
+                  ),
+                ],
               ),
-              Image.asset('lib/assets/logo.png', height: 449, width: 459),
-            ],
-          ),
-          aboutTeamAlias(),
-          Row(
-            children: [
-              Flexible(
-                child: Text(
-                  "Проект был выполнен студентами Мурманского Арктического "
-                  "государственного университета в рамках дисциплин "
-                  "\"Университетский проект\" и \"Проект направленности (профиля)\".",
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 24,
-                      letterSpacing: 3),
+            )
+          ],
+          footer: Footer(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  color: Colors.white70,
+                  height: 50,
+                  width: 50,
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              memberTeamField(
-                  'lib/assets/Baginskii.jpg', 'Багинский Денис', 'Программист'),
-              memberTeamField('lib/assets/Markova.jpg', 'Маркова Варвара',
-                  'Программист, дизайнер'),
-              memberTeamField(
-                  'lib/assets/Projerin.jpg', 'Прожерин Дмитрий', 'Программист'),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              memberTeamField(
-                  'lib/assets/Surovets.jpg', 'Суровец Валерия', 'Биолог'),
-              memberTeamField(
-                  'lib/assets/Moiseeva.jpg', 'Моисеева Нина', 'Биолог'),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              memberTeamField('lib/assets/Baginskii.jpg',
-                  'Мирошников Владислав', 'Программист'),
-              memberTeamField(
-                  'lib/assets/Projerin.jpg', 'Андреев Матвей', 'Программист'),
-            ],
-          ),
-        ],
-      );
+                Text("с 2022 Полярное солнце"),
+                Container(
+                  color: Colors.white70,
+                  height: 50,
+                  width: 50,
+                ),
+              ],
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ));
     }
 
     Widget mobileView() {
       return ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 20),
-        children: [
-          Image.asset('lib/assets/logo.png', height: 252, width: 253),
-          Flexible(
-            child: Text(
+          padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 20),
+          children: [
+            Image.asset('lib/assets/logo.png', height: 252, width: 253),
+            Text(
                 "\"Полярное солнце\" - это проект направленный"
                 " на биоразнообразие мурманской области.",
                 style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w400, fontSize: 20),
                 textAlign: TextAlign.center),
-          ),
-          Flexible(
-            child: Text(
+            Text(
               "\nНа сайте размещён цифровой гербарий МАГУ,"
               " включающий коллекцию растений, произрастающих на территории"
               " Мурманской области и собранных исследователями нашего "
@@ -190,43 +235,36 @@ class About extends StatelessWidget {
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400, fontSize: 16),
             ),
-          ),
-          aboutTeamAlias(),
-          Row(
-            children: [
-              Flexible(
-                child: Text(
-                  "Проект был выполнен студентами Мурманского Арктического "
-                  "государственного университета в рамках дисциплин "
-                  "\"Университетский проект\" и \"Проект направленности (профиля)\".",
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16),
-                  textAlign: TextAlign.center,
+            teamAlias(),
+            Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    "Проект был выполнен студентами Мурманского Арктического "
+                    "государственного университета в рамках дисциплин "
+                    "\"Университетский проект\" и \"Проект направленности (профиля)\".",
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w400, fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              memberTeamMobileField(
-                  'lib/assets/Baginskii.jpg', 'Багинский Денис', 'Программист'),
-              memberTeamMobileField('lib/assets/Markova.jpg', 'Маркова Варвара',
-                  'Программист, дизайнер'),
-              memberTeamMobileField(
-                  'lib/assets/Projerin.jpg', 'Прожерин Дмитрий', 'Программист'),
-              memberTeamMobileField(
-                  'lib/assets/Surovets.jpg', 'Суровец Валерия', 'Биолог'),
-              memberTeamMobileField(
-                  'lib/assets/Moiseeva.jpg', 'Моисеева Нина', 'Биолог'),
-              memberTeamMobileField('lib/assets/Baginskii.jpg',
-                  'Мирошников Владислав', 'Программист'),
-              memberTeamMobileField(
-                  'lib/assets/Projerin.jpg', 'Андреев Матвей', 'Программист'),
-            ],
-          ),
-        ],
-      );
+              ],
+            ),
+            mobileMemberTeamField(
+                'lib/assets/Baginskii.jpg', 'Багинский Денис', 'Программист'),
+            mobileMemberTeamField('lib/assets/Markova.jpg', 'Маркова Варвара',
+                'Программист, дизайнер'),
+            mobileMemberTeamField(
+                'lib/assets/Projerin.jpg', 'Прожерин Дмитрий', 'Программист'),
+            mobileMemberTeamField(
+                'lib/assets/Surovets.jpg', 'Суровец Валерия', 'Биолог'),
+            mobileMemberTeamField(
+                'lib/assets/Moiseeva.jpg', 'Моисеева Нина', 'Биолог'),
+            mobileMemberTeamField(
+                'lib/assets/Baginskii.jpg', 'Мирошников Влад', 'Программист'),
+            mobileMemberTeamField(
+                'lib/assets/Projerin.jpg', 'Андреев Матвей', 'Программист')
+          ]);
     }
 
     return getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile

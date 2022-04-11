@@ -8,7 +8,7 @@ import 'package:polar_sun/templates/custom_tab_bar.dart';
 import 'package:polar_sun/utils/content_view.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'dart:math' as math;
 import 'add.dart';
 import 'home.dart';
 
@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     user = widget.user;
+    print(user);
     tabController = TabController(length: contentViews.length, vsync: this);
   }
 
@@ -100,23 +101,31 @@ class _HomePageState extends State<HomePage>
               ),
             ],
           ),
-          child: LayoutBuilder(builder: (context, constraints) {
-            if (deviceType == DeviceScreenType.desktop) {
-              return desktopView();
-            } else {
-              return mobileView();
-            }
-          }),
+          child: Expanded(
+            child: LayoutBuilder(builder: (context, constraints) {
+              if (deviceType == DeviceScreenType.desktop) {
+                return desktopView();
+              } else {
+                return mobileView();
+              }
+            }),
+          ),
         ));
   }
-
 
   Widget desktopView() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        IconButton(onPressed: logout, icon: const Icon(Icons.logout)),
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.only(left: 10),
+          width: MediaQuery.of(context).size.width,
+          color: Theme.of(context).colorScheme.primary,
+            child: IconButton(onPressed: logout, icon: Transform.rotate(
+                angle: math.pi,
+                child: const Icon(Icons.logout, color: Colors.redAccent,)))),
         CustomTabBar(
             controller: tabController,
             tabs: contentViews.map((e) => e.tab).toList()),
