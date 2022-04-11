@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:polar_sun/screens/herb.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -30,10 +31,10 @@ class _HomeState extends State<Home> {
                     fontWeight: FontWeight.w500,
                     fontSize: 36,
                     letterSpacing: 7)),
-            SizedBox(
+            const SizedBox(
               height: 93,
             ),
-            Container(
+            SizedBox(
               height: 143,
               width: 577,
               child: ElevatedButton(
@@ -44,9 +45,8 @@ class _HomeState extends State<Home> {
                     isHover ? elevation = 10 : elevation = 1;
                     setState(() {});
                   },
-                  onPressed: () {
-                    print("hello");
-                  },
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (build) => const Herb())),
                   child: Row(
                     children: [
                       Image.asset('lib/assets/herbarium.png'),

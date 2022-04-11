@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage>
         body: Container(
           decoration: BoxDecoration(
             boxShadow: [
-              BoxShadow(
+              const BoxShadow(
                 color: Color.fromRGBO(96, 154, 76, 0.5),
               ),
               BoxShadow(
