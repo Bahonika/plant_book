@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:polar_sun/screens/login.dart';
+import 'package:polar_sun/data/entities/user.dart';
+import 'package:polar_sun/screens/about.dart';
+import 'package:polar_sun/screens/herb.dart';
+import 'package:polar_sun/screens/login_page.dart';
 import 'package:polar_sun/templates/custom_tab.dart';
 import 'package:polar_sun/templates/custom_tab_bar.dart';
 import 'package:polar_sun/utils/content_view.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'add.dart';
 import 'home.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final User user;
+
+  const HomePage({Key? key, required this.user}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -17,9 +24,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   var scaffoldKey = GlobalKey<ScaffoldState>();
+
   late double screenHeight;
   late double screenWidth;
   late TabController tabController;
+
+  late User user;
 
   List<ContentView> contentViews = [
     ContentView(
@@ -29,21 +39,36 @@ class _HomePageState extends State<HomePage>
         content: const Home()),
     ContentView(
         tab: const CustomTab(
-          title: "О нас",
+          title: "Гербарий",
         ),
-        content: const Center()),
+        content: const Herb()),
     ContentView(
         tab: const CustomTab(
-          title: "Вход",
+          title: "Добавить",
         ),
-        content: const Center(
-          child: Login(),
-        )),
+        content: const Add()),
+    ContentView(
+        tab: const CustomTab(
+          title: "О нас",
+        ),
+        content: const About()),
   ];
+
+  void logout() async {
+    var prefs = await SharedPreferences.getInstance();
+    user.clear(prefs);
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    user = widget.user;
     tabController = TabController(length: contentViews.length, vsync: this);
   }
 
@@ -85,11 +110,13 @@ class _HomePageState extends State<HomePage>
         ));
   }
 
+
   Widget desktopView() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
+        IconButton(onPressed: logout, icon: const Icon(Icons.logout)),
         CustomTabBar(
             controller: tabController,
             tabs: contentViews.map((e) => e.tab).toList()),

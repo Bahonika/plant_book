@@ -96,7 +96,6 @@ class _ParksState extends State<Parks> {
 
   @override
   Widget build(BuildContext context) {
-    print(getDeviceType(MediaQuery.of(context)));
 
     return Scaffold(
       appBar: AppBar(
