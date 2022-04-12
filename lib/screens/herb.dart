@@ -1,53 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:polar_sun/data/entities/plant.dart';
+import 'package:polar_sun/data/entities/user.dart';
 import 'package:polar_sun/data/repositories/plant_repository.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 import '../views/plant_view.dart';
 
 class Herb extends StatefulWidget {
-  const Herb({Key? key}) : super(key: key);
+  final User user;
+
+  const Herb({Key? key, required this.user}) : super(key: key);
 
   @override
   _HerbState createState() => _HerbState();
 }
 
 class _HerbState extends State<Herb> {
-  static Plant plant1 = Plant(
-      id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
-  static Plant plant2 = Plant(
-      id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
-  static Plant plant3 = Plant(
-      id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
-  static Plant plant4 = Plant(
-      id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
-  static Plant plant5 = Plant(
-      id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
-  static Plant plant6 = Plant(
-      id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
-  static Plant plant7 = Plant(
-      id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
+  // static Plant plant1 = Plant(
+  //     id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
+  // static Plant plant2 = Plant(
+  //     id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
+  // static Plant plant3 = Plant(
+  //     id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
+  // static Plant plant4 = Plant(
+  //     id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
+  // static Plant plant5 = Plant(
+  //     id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
+  // static Plant plant6 = Plant(
+  //     id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
+  // static Plant plant7 = Plant(
+  //     id: 1, photo: 'lib/assets/80.jpg', name: "Имя", family: "Семейство");
 
   List<Plant> plants = [
-    plant1,
-    plant2,
-    plant3,
-    plant4,
-    plant5,
-    plant6,
-    plant7,
+    // plant1,
+    // plant2,
+    // plant3,
+    // plant4,
+    // plant5,
+    // plant6,
+    // plant7,
   ];
 
   var repository = PlantRepository();
   final Map<String, String> queryParams = {};
 
   Future<void> getData(Map<String, String> queryParams) async {
-    plants = await repository.getAll(queryParams: queryParams);
+    print(widget.user);
+    plants = await repository.getAll(queryParams: queryParams, user: widget.user as AuthorizedUser);
     setState(() {});
   }
 
   @override
   void initState() {
-    // getData(queryParams);
+    getData(queryParams);
     super.initState();
   }
 
@@ -71,7 +75,7 @@ class _HerbState extends State<Herb> {
               children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
+                    child: Image.network(
                       plant.photo,
                       height: MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width * 0.15,
@@ -100,7 +104,7 @@ class _HerbState extends State<Herb> {
             },
             child: Row(
               children: [
-                Image.asset(
+                Image.network(
                   plant.photo,
                   width: MediaQuery.of(context).size.width * 0.15,
                   height: MediaQuery.of(context).size.height * 0.25,

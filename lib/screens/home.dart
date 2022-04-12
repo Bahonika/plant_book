@@ -16,7 +16,9 @@ class _HomeState extends State<Home> {
       return Text(
         "Полярное солнце",
         style: GoogleFonts.montserratAlternates(
-          fontSize: MediaQuery.of(context).size.longestSide * 0.057,
+          fontSize: MediaQuery.of(context).size.longestSide * 0.057 < 30
+              ? 30
+              : MediaQuery.of(context).size.longestSide * 0.057,
           fontWeight: FontWeight.w800,
           color: const Color.fromRGBO(251, 150, 0, 1),
           shadows: <Shadow>[
@@ -38,7 +40,11 @@ class _HomeState extends State<Home> {
     Widget biodiversityAlias() {
       return Text("Биоразнообразие северной природы",
           style: GoogleFonts.montserrat(
-              fontWeight: FontWeight.w500, fontSize: MediaQuery.of(context).size.longestSide * 0.018  , letterSpacing: 7));
+              fontWeight: FontWeight.w500,
+              fontSize: MediaQuery.of(context).size.longestSide * 0.018 < 16
+                  ? 16
+                  : MediaQuery.of(context).size.longestSide * 0.018,
+              letterSpacing: 7));
     }
 
     double widthFactor =
@@ -90,15 +96,19 @@ class _HomeState extends State<Home> {
       return Stack(children: [
         Align(
           alignment: Alignment.bottomRight,
-          child: Image.asset('lib/assets/home_screen.png'),
+          child: Image.asset(
+            'lib/assets/home_screen_mobile.png',
+            height: MediaQuery.of(context).size.height * 0.5,
+          ),
         ),
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 60),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   polarSunAlias(),
+                  const SizedBox(height: 20),
                   biodiversityAlias(),
                   const SizedBox(
                     height: 93,
@@ -125,6 +135,9 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 polarSunAlias(),
+                SizedBox(
+                  height: 10,
+                ),
                 biodiversityAlias(),
                 const SizedBox(
                   height: 93,

@@ -8,7 +8,7 @@ class User {
     required this.role,
   });
 
-  static const moder = "Модератор";
+  static const moder = "moder";
   static const guest = "Гость";
 
   @override
@@ -84,7 +84,6 @@ class AuthorizedUser extends User{
 
 Future<User> restoreFromSharedPrefs(SharedPreferences prefs) async{
   var role = prefs.get('role') as String?;
-
   if(role == null || role == User.guest){
     return GuestUser();
   }
@@ -94,6 +93,7 @@ Future<User> restoreFromSharedPrefs(SharedPreferences prefs) async{
   var surname = prefs.get('surname') as String?;
   var email = prefs.get('email') as String?;
   var id = prefs.get('id') as int?;
+
 
   return AuthorizedUser(role: role,
       id: id!,

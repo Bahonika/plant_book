@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:footer/footer.dart';
 import 'package:footer/footer_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:polar_sun/templates/footer.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 
 class About extends StatelessWidget {
@@ -184,9 +185,9 @@ class About extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      desktopMemberTeamField('lib/assets/Baginskii.jpg',
+                      desktopMemberTeamField('lib/assets/Miroshnikov.jpg',
                           'Мирошников Влад', 'Программист'),
-                      desktopMemberTeamField('lib/assets/Projerin.jpg',
+                      desktopMemberTeamField('lib/assets/Andreev.jpg',
                           'Андреев Матвей', 'Программист'),
                     ],
                   ),
@@ -194,26 +195,7 @@ class About extends StatelessWidget {
               ),
             )
           ],
-          footer: Footer(
-            padding: EdgeInsets.all(8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  color: Colors.white70,
-                  height: 50,
-                  width: 50,
-                ),
-                Text("с 2022 Полярное солнце"),
-                Container(
-                  color: Colors.white70,
-                  height: 50,
-                  width: 50,
-                ),
-              ],
-            ),
-            backgroundColor: Theme.of(context).colorScheme.primary,
-          ));
+          footer: footer(context));
     }
 
     Widget mobileView() {
@@ -261,9 +243,9 @@ class About extends StatelessWidget {
             mobileMemberTeamField(
                 'lib/assets/Moiseeva.jpg', 'Моисеева Нина', 'Биолог'),
             mobileMemberTeamField(
-                'lib/assets/Baginskii.jpg', 'Мирошников Влад', 'Программист'),
+                'lib/assets/Miroshnikov.jpg', 'Мирошников Влад', 'Программист'),
             mobileMemberTeamField(
-                'lib/assets/Projerin.jpg', 'Андреев Матвей', 'Программист')
+                'lib/assets/Andreev.jpg', 'Андреев Матвей', 'Программист')
           ]);
     }
 

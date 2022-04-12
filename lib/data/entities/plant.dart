@@ -38,7 +38,7 @@ class Plant implements Displayable {
   factory Plant.fromJson(Map<String, dynamic> json) {
     return Plant(
       id: json["id"],
-      photo: "https://" + Api.siteRoot + Api.apiRoot + json["photo"],
+      photo: "https://" + Api.siteRoot + Api.apiRoot + json["photo_url"],
       name: utf8convert(json["name"]),
       family: utf8convert(json["family"]),
       place: utf8convert(json["place"]),

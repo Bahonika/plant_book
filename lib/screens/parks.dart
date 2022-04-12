@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:polar_sun/data/entities/park.dart';
-import 'package:polar_sun/utils/device_screen_type.dart';
-import '../buttons/park_button.dart';
 
 class Parks extends StatefulWidget {
   const Parks({Key? key}) : super(key: key);
@@ -111,7 +109,6 @@ class _ParksState extends State<Parks> {
               itemBuilder: (BuildContext context, int i) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: ParkButton(parks[i]),
                 );
               })),
     );

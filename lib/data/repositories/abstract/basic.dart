@@ -15,10 +15,12 @@ abstract class BasicRepository<T> extends Api {
   Future<List<T>> getAll(
       {Map<String, String>? queryParams, AuthorizedUser? user}) async {
     var uri = Uri.https(Api.siteRoot, apiPath(), queryParams);
-    var response = user == null
-        ? await http.get(uri)
-        : await http
-            .get(uri, headers: {});
+    print(user!.token);
+    var response =
+        await http.get(uri, headers: {
+          "Content-Type": "application/json",
+          'Authorization': "Token ${user.token}"});
+    print(response.headers);
     var status = response.statusCode;
     if (status == 200) {
       List<T> list = [];

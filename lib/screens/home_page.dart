@@ -3,6 +3,7 @@ import 'package:polar_sun/data/entities/user.dart';
 import 'package:polar_sun/screens/about.dart';
 import 'package:polar_sun/screens/herb.dart';
 import 'package:polar_sun/screens/login_page.dart';
+import 'package:polar_sun/templates/box_shadow.dart';
 import 'package:polar_sun/templates/custom_tab.dart';
 import 'package:polar_sun/templates/custom_tab_bar.dart';
 import 'package:polar_sun/utils/content_view.dart';
@@ -13,9 +14,9 @@ import 'add.dart';
 import 'home.dart';
 
 class HomePage extends StatefulWidget {
-  final User user;
+  final User? user;
 
-  const HomePage({Key? key, required this.user}) : super(key: key);
+  const HomePage({Key? key, this.user}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,38 +26,45 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
+  late User user;
   late double screenHeight;
   late double screenWidth;
   late TabController tabController;
 
-  late User user;
+  List<ContentView?> contentViews = [];
 
-  List<ContentView> contentViews = [
-    ContentView(
-        tab: const CustomTab(
-          title: "Главная",
-        ),
-        content: const Home()),
-    ContentView(
-        tab: const CustomTab(
-          title: "Гербарий",
-        ),
-        content: const Herb()),
-    ContentView(
-        tab: const CustomTab(
-          title: "Добавить",
-        ),
-        content: const Add()),
-    ContentView(
-        tab: const CustomTab(
-          title: "О нас",
-        ),
-        content: const About()),
-  ];
+  checkRole() {
+    contentViews.addAll([
+      ContentView(
+          tab: const CustomTab(
+            title: "Главная",
+          ),
+          content: const Home()),
+      ContentView(
+          tab: const CustomTab(
+            title: "Гербарий",
+          ),
+          content: Herb(user: user)),
+      ContentView(
+          tab: const CustomTab(
+            title: "О нас",
+          ),
+          content: const About())
+    ]);
+    print(user.role);
+    print(User.moder);
+    if (user.role == User.moder) {
+      contentViews.add(ContentView(
+          tab: const CustomTab(
+            title: "Добавить",
+          ),
+          content: const Add()));
+    }
+  }
 
   void logout() async {
     var prefs = await SharedPreferences.getInstance();
-    user.clear(prefs);
+    widget.user!.clear(prefs);
     if (Navigator.canPop(context)) {
       Navigator.pop(context);
     } else {
@@ -65,11 +73,28 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  IconButton logoutButton(){
+    return IconButton(
+        onPressed: logout,
+        icon: Transform.rotate(
+            angle: math.pi,
+            child: const Icon(
+              Icons.logout,
+              color: Colors.redAccent,
+            )));
+  }
+
+  Future<void> getData() async {
+    var sharedPrefs = await SharedPreferences.getInstance();
+    user = widget.user ?? await restoreFromSharedPrefs(sharedPrefs);
+  }
+
   @override
   void initState() {
+    user = widget.user!;
+    getData();
+    checkRole();
     super.initState();
-    user = widget.user;
-    print(user);
     tabController = TabController(length: contentViews.length, vsync: this);
   }
 
@@ -88,19 +113,11 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
         endDrawer: drawer(),
         key: scaffoldKey,
+        appBar: deviceType == DeviceScreenType.mobile ? AppBar(
+          title: logoutButton(),
+        ) : null,
         body: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              const BoxShadow(
-                color: Color.fromRGBO(96, 154, 76, 0.5),
-              ),
-              BoxShadow(
-                color: Theme.of(context).backgroundColor,
-                spreadRadius: -12.0,
-                blurRadius: 150.0,
-              ),
-            ],
-          ),
+          decoration: BoxDecoration(boxShadow: boxShadow(context)),
           child: LayoutBuilder(builder: (context, constraints) {
             if (deviceType == DeviceScreenType.desktop) {
               return desktopView();
@@ -117,20 +134,18 @@ class _HomePageState extends State<HomePage>
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.only(left: 10),
-          width: MediaQuery.of(context).size.width,
-          color: Theme.of(context).colorScheme.primary,
-            child: IconButton(onPressed: logout, icon: Transform.rotate(
-                angle: math.pi,
-                child: const Icon(Icons.logout, color: Colors.redAccent,)))),
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(left: 10),
+            width: MediaQuery.of(context).size.width,
+            color: Theme.of(context).colorScheme.primary,
+            child: logoutButton()),
         CustomTabBar(
             controller: tabController,
-            tabs: contentViews.map((e) => e.tab).toList()),
+            tabs: contentViews.map((e) => e!.tab).toList()),
         Expanded(
           child: TabBarView(
             controller: tabController,
-            children: contentViews.map((e) => e.content).toList(),
+            children: contentViews.map((e) => e!.content).toList(),
           ),
         )
       ],
@@ -146,21 +161,21 @@ class _HomePageState extends State<HomePage>
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Container(
-                color: Theme.of(context).colorScheme.primary,
-                width: MediaQuery.of(context).size.width,
-                height: 65,
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  IconButton(
-                    onPressed: () => scaffoldKey.currentState!.openEndDrawer(),
-                    icon: const Icon(Icons.menu_rounded),
-                    color: Colors.grey,
-                  ),
-                ])),
+            // Container(
+            //     color: Theme.of(context).colorScheme.primary,
+            //     width: MediaQuery.of(context).size.width,
+            //     height: 65,
+            //     child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            //       IconButton(
+            //         onPressed: () => scaffoldKey.currentState!.openEndDrawer(),
+            //         icon: const Icon(Icons.menu_rounded),
+            //         color: Colors.grey,
+            //       ),
+            //     ])),
             Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: contentViews.map((e) => e.content).toList(),
+                children: contentViews.map((e) => e!.content).toList(),
               ),
             )
           ],
@@ -174,7 +189,7 @@ class _HomePageState extends State<HomePage>
       child: ListView(
         children: contentViews
             .map((e) => ListTile(
-                title: Text(e.tab.title),
+                title: Text(e!.tab.title),
                 onTap: () {
                   tabController.index = contentViews.indexOf(e);
                   scaffoldKey.currentState!.openDrawer();

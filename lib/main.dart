@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> {
     );
 
     return MaterialApp(
+      title: "Полярное Солнце",
         theme: themeData,
         debugShowCheckedModeBanner: false,
         home: const Redirection());
@@ -46,7 +47,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 
-// The statefulWidget class required for redirecting to the gallery page if the user was logged in earlier.
+// The statefulWidget class required for redirecting to the homepage if the user was logged in earlier.
 class Redirection extends StatefulWidget {
   const Redirection({Key? key}) : super(key: key);
 
@@ -71,6 +72,6 @@ class _RedirectionState extends State<Redirection> {
 
   @override
   Widget build(BuildContext context) {
-    return user != null ? HomePage(user: user!) : const LoginPage();
+    return user != null ? HomePage(user: user) : const LoginPage();
   }
 }

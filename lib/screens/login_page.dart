@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:polar_sun/data/entities/user.dart';
 import 'package:polar_sun/data/repositories/auth_user.dart';
 import 'package:polar_sun/screens/home_page.dart';
+import 'package:polar_sun/templates/box_shadow.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +35,6 @@ class _LoginPageState extends State<LoginPage> {
           loginController.value.text, passwordController.value.text);
       var prefs = await SharedPreferences.getInstance();
       user?.save(prefs);
-      print(user);
       setState(() {
         isAuthFailed = false;
       });
@@ -59,7 +59,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    double widthOfTextFields = MediaQuery.of(context).size.shortestSide * 0.45;
+    double widthOfTextFields;
+    widthOfTextFields =
+        getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
+            ? MediaQuery.of(context).size.width * 0.5
+            : 400;
 
     Widget splash() {
       return SizedBox(
@@ -80,8 +84,10 @@ class _LoginPageState extends State<LoginPage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               elevation: 1),
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => HomePage(user: GuestUser()))),
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => HomePage(user: GuestUser()))),
           child: const Text(
             "Войти как гость",
             style: TextStyle(fontSize: 24),
@@ -135,67 +141,75 @@ class _LoginPageState extends State<LoginPage> {
     Widget authorizationAlias() {
       return Text("АВТОРИЗАЦИЯ",
           style: GoogleFonts.montserrat(
-              fontSize: 48, fontWeight: FontWeight.w700, letterSpacing: 10));
+              fontSize: MediaQuery.of(context).size.longestSide * 0.025 < 28 ? 28 : MediaQuery.of(context).size.longestSide * 0.025,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 10));
     }
 
     Widget mobileView() {
-      return SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-              height: 390,
-              alignment: Alignment.center,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    authorizationAlias(),
-                    loginTextField(),
-                    passwordTextField(),
-                    loginButton(),
-                    subscribeButton(),
-                  ])),
-          const SizedBox(
-            width: 20,
-          ),
-          splash(),
-        ]),
+      return Center(
+        child: SingleChildScrollView(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+                height: 390,
+                alignment: Alignment.center,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      authorizationAlias(),
+                      loginTextField(),
+                      passwordTextField(),
+                      loginButton(),
+                      subscribeButton(),
+                    ])),
+            const SizedBox(
+              width: 20,
+            ),
+            splash(),
+          ]),
+        ),
       );
     }
 
     Widget desktopView() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-              alignment: Alignment.center,
-              height: 390,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    authorizationAlias(),
-                    loginTextField(),
-                    passwordTextField(),
-                    SizedBox(
-                      width: widthOfTextFields,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [loginButton(), subscribeButton()],
-                      ),
-                    )
-                  ])),
-          const SizedBox(
-            width: 20,
-          ),
-          splash()
-        ],
+      return Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                alignment: Alignment.center,
+                height: 390,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      authorizationAlias(),
+                      loginTextField(),
+                      passwordTextField(),
+                      SizedBox(
+                        width: widthOfTextFields,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [loginButton(), subscribeButton()],
+                        ),
+                      )
+                    ])),
+            const SizedBox(
+              width: 20,
+            ),
+            splash()
+          ],
+        ),
       );
     }
 
     return Scaffold(
-      body: getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
+        body: Container(
+      decoration: BoxDecoration(boxShadow: boxShadow(context)),
+      child: getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
           ? mobileView()
           : desktopView(),
-    );
+    ));
   }
 }
