@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:polar_sun/data/entities/plant.dart';
 import 'package:polar_sun/data/repositories/plant_repository.dart';
 
 class Add extends StatefulWidget {
@@ -20,7 +22,10 @@ class _AddState extends State<Add> {
   TextEditingController habitatController = TextEditingController();
   TextEditingController collectorController = TextEditingController();
   TextEditingController determinateController = TextEditingController();
+  TextEditingController serialController = TextEditingController();
   File? photo;
+
+  DateTime selectedDate = DateTime.now();
 
   pickPhoto() async {
     XFile? pickedFile = await ImagePicker().pickImage(
@@ -53,6 +58,20 @@ class _AddState extends State<Add> {
       );
     }
 
+    selectDate(BuildContext context) async {
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2025),
+      );
+      if (picked != null && picked != selectedDate) {
+        setState(() {
+          selectedDate = picked;
+        });
+      }
+    }
+
     PlantRepository plantRepository = PlantRepository();
 
     addToDatabase() async {
@@ -65,6 +84,8 @@ class _AddState extends State<Add> {
         print("Заполните все поля");
       } else if (photo == null) {
         print("Нет фото");
+      } else {
+        print("Всё ок");
       }
     }
 
@@ -81,25 +102,35 @@ class _AddState extends State<Add> {
                 letterSpacing: 7,
               )),
         ),
-        addTextField("Название", nameController),
-        addTextField("Латинское название", latinController),
-        addTextField("Место сбора", placeController),
-        addTextField("Метообитание", habitatController),
-        addTextField("Кто собрал", collectorController),
-        addTextField("Кто определил", determinateController),
-        DatePickerDialog(
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime(2030),
+        addTextField(Plant.serialAlias, serialController),
+        addTextField(Plant.nameAlias, nameController),
+        addTextField(Plant.latinAlias, latinController),
+        addTextField(Plant.placeAlias, placeController),
+        addTextField(Plant.habitatAlias, habitatController),
+        addTextField(Plant.collectorAlias, collectorController),
+        addTextField(Plant.determinateAlias, determinateController),
+        ElevatedButton(
+          onPressed: () => selectDate(context),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Выбрать дату сбора - " + DateFormat("dd.MM.yyyy").format(selectedDate),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 25, color: Theme.of(context).backgroundColor),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
         ),
         ElevatedButton(
             onPressed: pickPhoto,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
+            child:  Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Выбрать изображение растения",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 25, color: Theme.of(context).backgroundColor),
               ),
             )),
         photo != null
@@ -125,6 +156,16 @@ class _AddState extends State<Add> {
             : const SizedBox(
                 height: 20,
               ),
+        ElevatedButton(
+            onPressed: addToDatabase,
+            child:  Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Готово",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 25, color: Theme.of(context).backgroundColor),
+              ),
+            )),
       ],
     );
   }

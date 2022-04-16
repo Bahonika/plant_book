@@ -4,6 +4,7 @@ import 'package:polar_sun/utils/utf_8_convert.dart';
 
 class Plant implements Displayable {
   final int id;
+  final int serialNumber;
   final String photo;
   final String name;
   final String family;
@@ -15,6 +16,7 @@ class Plant implements Displayable {
 
   Plant({
     required this.id,
+    required this.serialNumber,
     required this.photo,
     required this.name,
     required this.family,
@@ -26,7 +28,9 @@ class Plant implements Displayable {
   });
 
   //aliases
+  static const String serialAlias = "Номер";
   static const String nameAlias = "Название";
+  static const String latinAlias = "Название на лытыни";
   static const String familyAlias = "Семейство";
   static const String placeAlias = "Место сбора";
   static const String habitatAlias = "Местообитание";
@@ -38,6 +42,7 @@ class Plant implements Displayable {
   factory Plant.fromJson(Map<String, dynamic> json) {
     return Plant(
       id: json["id"],
+      serialNumber: json["serial_number"],
       photo: "https://" + Api.siteRoot + Api.apiRoot + json["photo_url"],
       name: utf8convert(json["name"]),
       family: utf8convert(json["family"]),
@@ -52,6 +57,7 @@ class Plant implements Displayable {
   @override
   Map<String, String> getFields() {
     return {
+      Plant.serialAlias: serialNumber.toString(),
       Plant.nameAlias: name,
       Plant.familyAlias: family,
       Plant.placeAlias: place!,

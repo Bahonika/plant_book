@@ -51,8 +51,6 @@ class _HomePageState extends State<HomePage>
           ),
           content: const About())
     ]);
-    print(user.role);
-    print(User.moder);
     if (user.role == User.moder) {
       contentViews.add(ContentView(
           tab: const CustomTab(
@@ -73,7 +71,7 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  IconButton logoutButton(){
+  IconButton logoutButton() {
     return IconButton(
         onPressed: logout,
         icon: Transform.rotate(
@@ -113,9 +111,11 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
         endDrawer: drawer(),
         key: scaffoldKey,
-        appBar: deviceType == DeviceScreenType.mobile ? AppBar(
-          title: logoutButton(),
-        ) : null,
+        appBar: deviceType == DeviceScreenType.mobile
+            ? AppBar(
+                title: logoutButton(),
+              )
+            : null,
         body: Container(
           decoration: BoxDecoration(boxShadow: boxShadow(context)),
           child: LayoutBuilder(builder: (context, constraints) {

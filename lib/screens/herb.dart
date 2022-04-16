@@ -44,9 +44,13 @@ class _HerbState extends State<Herb> {
   final Map<String, String> queryParams = {};
 
   Future<void> getData(Map<String, String> queryParams) async {
-    print(widget.user);
-    plants = await repository.getAll(queryParams: queryParams, user: widget.user as AuthorizedUser);
-    setState(() {});
+    // print(widget.user);
+    // print(GuestUser());
+    if (widget.user.role != GuestUser().role) {
+      plants = await repository.getAll(
+          queryParams: queryParams, user: widget.user as AuthorizedUser);
+      setState(() {});
+    }
   }
 
   @override
@@ -136,8 +140,12 @@ class _HerbState extends State<Herb> {
           });
     }
 
-    return getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
-        ? mobileView()
-        : desktopView();
+    return widget.user.role == GuestUser().role
+        ? const Center(
+            child: Text("Для просмотра коллекции, пожалуйста, авторизируйтесь"),
+          )
+        : getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
+            ? mobileView()
+            : desktopView();
   }
 }
