@@ -63,11 +63,16 @@ class _HerbState extends State<Herb> {
   Widget build(BuildContext context) {
     Widget desktopPlant(Plant plant) {
       return Container(
-        height: MediaQuery.of(context).size.height * 0.25,
-        width: MediaQuery.of(context).size.width * 0.15,
-        margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+        height: MediaQuery.of(context).size.height * 0.35,
+        width: MediaQuery.of(context).size.width * 0.20,
+        margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
         child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            ),
+            primary: Color.fromRGBO(83, 165, 74, 0.8),
+          ),
             onPressed: () {
               Navigator.push(
                   context,
@@ -82,13 +87,17 @@ class _HerbState extends State<Herb> {
                     child: Image.network(
                       plant.photo,
                       height: MediaQuery.of(context).size.height * 0.25,
-                      width: MediaQuery.of(context).size.width * 0.15,
+                      width: MediaQuery.of(context).size.width * 0.10,
                       fit: BoxFit.fitHeight,
                     )),
                 Text(
                   plant.name,
-                  style: const TextStyle(fontSize: 20, color: Colors.white60),
-                )
+                  style: const TextStyle(fontSize: 24, color: Colors.white70),
+                ),
+                Text(
+                  plant.latin,
+                  style: const TextStyle(fontSize: 20, color: Colors.white54),
+                ),
               ],
             )),
       );
