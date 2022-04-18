@@ -1,12 +1,13 @@
-import 'package:polar_sun/data/entities/displayable.dart';
+import 'package:polar_sun/data/entities/abstract/displayable.dart';
 import 'package:polar_sun/data/repositories/abstract/api.dart';
 import 'package:polar_sun/utils/utf_8_convert.dart';
 
 class Plant implements Displayable {
   final int id;
   final int serialNumber;
-  final String photo;
+  final String photo_url;
   final String name;
+  final String latin;
   final String family;
   final String? place;
   final String? habitat;
@@ -17,8 +18,9 @@ class Plant implements Displayable {
   Plant({
     required this.id,
     required this.serialNumber,
-    required this.photo,
+    required this.photo_url,
     required this.name,
+    required this.latin,
     required this.family,
     this.place,
     this.habitat,
@@ -43,8 +45,9 @@ class Plant implements Displayable {
     return Plant(
       id: json["id"],
       serialNumber: json["serial_number"],
-      photo: "https://" + Api.siteRoot + Api.apiRoot + json["photo_url"],
+      photo_url: "https://" + Api.siteRoot + Api.apiRoot + json["photo_url"],
       name: utf8convert(json["name"]),
+      latin: utf8convert(json["latin"]),
       family: utf8convert(json["family"]),
       place: utf8convert(json["place"]),
       habitat: utf8convert(json["habitat"]),
@@ -59,6 +62,7 @@ class Plant implements Displayable {
     return {
       Plant.serialAlias: serialNumber.toString(),
       Plant.nameAlias: name,
+      Plant.latinAlias: latin,
       Plant.familyAlias: family,
       Plant.placeAlias: place!,
       Plant.habitatAlias: habitat!,

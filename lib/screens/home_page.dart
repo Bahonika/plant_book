@@ -56,7 +56,9 @@ class _HomePageState extends State<HomePage>
           tab: const CustomTab(
             title: "Добавить",
           ),
-          content: const Add()));
+          content: Add(
+            user: user as AuthorizedUser,
+          )));
     }
   }
 
