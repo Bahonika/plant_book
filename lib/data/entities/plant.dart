@@ -30,7 +30,7 @@ class Plant implements Displayable {
   //aliases
   static const String serialAlias = "Номер";
   static const String nameAlias = "Название";
-  static const String latinAlias = "Название на лытыни";
+  static const String latinAlias = "Название на латыни";
   static const String familyAlias = "Семейство";
   static const String placeAlias = "Место сбора";
   static const String habitatAlias = "Местообитание";
