@@ -3,6 +3,7 @@ import 'package:polar_sun/data/entities/plant.dart';
 import 'package:polar_sun/data/entities/user.dart';
 import 'package:polar_sun/data/repositories/plant_repository.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
+import 'package:universal_html/html.dart';
 import '../views/plant_view.dart';
 
 class Herb extends StatefulWidget {
@@ -66,8 +67,10 @@ class _HerbState extends State<Herb> {
         height: MediaQuery.of(context).size.height * 0.25,
         width: MediaQuery.of(context).size.width * 0.15,
         margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25))),
             onPressed: () {
               Navigator.push(
                   context,
@@ -80,8 +83,8 @@ class _HerbState extends State<Herb> {
                 ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      plant.photo,
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      plant.photo_url,
+                      height: MediaQuery.of(context).size.height * 0.2,
                       width: MediaQuery.of(context).size.width * 0.15,
                       fit: BoxFit.fitHeight,
                     )),
@@ -109,7 +112,7 @@ class _HerbState extends State<Herb> {
             child: Row(
               children: [
                 Image.network(
-                  plant.photo,
+                  plant.photo_url,
                   width: MediaQuery.of(context).size.width * 0.15,
                   height: MediaQuery.of(context).size.height * 0.25,
                   fit: BoxFit.fitWidth,

@@ -6,10 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polar_sun/data/entities/plant.dart';
-import 'package:polar_sun/data/repositories/plant_repository.dart';
+import 'package:polar_sun/data/entities/plant_save.dart';
+import 'package:polar_sun/data/entities/user.dart';
+import 'package:polar_sun/data/repositories/plant_save_repository.dart';
 
 class Add extends StatefulWidget {
-  const Add({Key? key}) : super(key: key);
+  const Add({Key? key, required this.user}) : super(key: key);
+
+  final AuthorizedUser user;
 
   @override
   _AddState createState() => _AddState();
@@ -30,8 +34,6 @@ class _AddState extends State<Add> {
   pickPhoto() async {
     XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
     );
     if (pickedFile != null) {
       setState(() {
@@ -72,7 +74,7 @@ class _AddState extends State<Add> {
       }
     }
 
-    PlantRepository plantRepository = PlantRepository();
+    PlantSaveRepository plantSaveRepository = PlantSaveRepository();
 
     addToDatabase() async {
       if (nameController.text == "" ||
@@ -85,7 +87,12 @@ class _AddState extends State<Add> {
       } else if (photo == null) {
         print("Нет фото");
       } else {
-        print("Всё ок");
+        PlantSave plantSave = PlantSave(
+            serialNumber: int.parse(serialController.text),
+            name: nameController.text,
+            latin: latinController.text,
+            family: placeController.text);
+        plantSaveRepository.create(plantSave, photo!, widget.user);
       }
     }
 
@@ -114,9 +121,11 @@ class _AddState extends State<Add> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "Выбрать дату сбора - " + DateFormat("dd.MM.yyyy").format(selectedDate),
+              "Выбрать дату сбора - " +
+                  DateFormat("dd.MM.yyyy").format(selectedDate),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25, color: Theme.of(context).backgroundColor),
+              style: TextStyle(
+                  fontSize: 25, color: Theme.of(context).backgroundColor),
             ),
           ),
         ),
@@ -125,12 +134,13 @@ class _AddState extends State<Add> {
         ),
         ElevatedButton(
             onPressed: pickPhoto,
-            child:  Padding(
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Выбрать изображение растения",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25, color: Theme.of(context).backgroundColor),
+                style: TextStyle(
+                    fontSize: 25, color: Theme.of(context).backgroundColor),
               ),
             )),
         photo != null
@@ -158,12 +168,13 @@ class _AddState extends State<Add> {
               ),
         ElevatedButton(
             onPressed: addToDatabase,
-            child:  Padding(
+            child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
                 "Готово",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25, color: Theme.of(context).backgroundColor),
+                style: TextStyle(
+                    fontSize: 25, color: Theme.of(context).backgroundColor),
               ),
             )),
       ],
