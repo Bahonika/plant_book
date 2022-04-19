@@ -46,16 +46,16 @@ abstract class MultipartRepository<T extends Postable>
     throw HttpException("can't post to $uri Status: $status");
   }
 
-  @override
-  Future<void> update(T entity, int id, AuthorizedUser user) async {
-    var dio = Dio();
-    var formData = await _prepareData(entity);
-    var response = await dio.put(apiIdPath(id).toString(),
-        data: formData,
-        options: Options(headers: {'Authorization': "Token ${user.token}"}));
-    var status = response.statusCode;
-    if (status != 201) {
-      throw HttpException("can't update Status: $status");
-    }
-  }
+  // @override
+  // Future<void> update(T entity, int id, AuthorizedUser user) async {
+  //   var dio = Dio();
+  //   var formData = await _prepareData(entity);
+  //   var response = await dio.put(apiIdPath(id).toString(),
+  //       data: formData,
+  //       options: Options(headers: {'Authorization': "Token ${user.token}"}));
+  //   var status = response.statusCode;
+  //   if (status != 201) {
+  //     throw HttpException("can't update Status: $status");
+  //   }
+  // }
 }

@@ -4,7 +4,7 @@ import 'package:polar_sun/data/entities/abstract/postable.dart';
 
 class PlantSave implements Postable {
   final int serialNumber;
-  // final File photo;
+  final File photo;
   final String name;
   final String latin;
   final String family;
@@ -16,7 +16,7 @@ class PlantSave implements Postable {
 
   PlantSave({
     required this.serialNumber,
-    // required this.photo,
+    required this.photo,
     required this.name,
     required this.latin,
     required this.family,
@@ -30,7 +30,7 @@ class PlantSave implements Postable {
   @override
   Map<String, File> getFiles() {
     return {
-      // 'photo': photo
+      'photo': photo
     };
   }
 

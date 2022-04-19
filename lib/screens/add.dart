@@ -90,6 +90,7 @@ class _AddState extends State<Add> {
         PlantSave plantSave = PlantSave(
             serialNumber: int.parse(serialController.text),
             name: nameController.text,
+            photo: File(photo!.path),
             latin: latinController.text,
             family: placeController.text);
         plantSaveRepository.create(plantSave, photo!, widget.user);
