@@ -3,7 +3,6 @@ import 'package:polar_sun/data/entities/plant.dart';
 import 'package:polar_sun/data/entities/user.dart';
 import 'package:polar_sun/data/repositories/plant_repository.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
-import 'package:universal_html/html.dart';
 import '../views/plant_view.dart';
 
 class Herb extends StatefulWidget {
@@ -64,13 +63,17 @@ class _HerbState extends State<Herb> {
   Widget build(BuildContext context) {
     Widget desktopPlant(Plant plant) {
       return Container(
-        height: MediaQuery.of(context).size.height * 0.25,
-        width: MediaQuery.of(context).size.width * 0.15,
-        margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+        height: MediaQuery.of(context).size.height * 0.90,
+        width: MediaQuery.of(context).size.width * 0.30,
+        margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+        padding: EdgeInsets.all(10),
         child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25))),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            ),
+            primary: Color.fromRGBO(83, 165, 74, 0.8),
+          ),
             onPressed: () {
               Navigator.push(
                   context,
@@ -81,17 +84,21 @@ class _HerbState extends State<Herb> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                     child: Image.network(
                       plant.photo_url,
-                      height: MediaQuery.of(context).size.height * 0.2,
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      fit: BoxFit.fitHeight,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width * 0.10,
+                      fit: BoxFit.fill,
                     )),
                 Text(
                   plant.name,
-                  style: const TextStyle(fontSize: 20, color: Colors.white60),
-                )
+                  style: const TextStyle(fontSize: 24, color: Colors.white70),
+                ),
+                Text(
+                  plant.latin,
+                  style: const TextStyle(fontSize: 20, color: Colors.white54),
+                ),
               ],
             )),
       );
@@ -101,8 +108,14 @@ class _HerbState extends State<Herb> {
       return Container(
         height: MediaQuery.of(context).size.height * 0.3,
         width: MediaQuery.of(context).size.width * 0.2,
-        margin: const EdgeInsets.symmetric(vertical: 5),
+        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              primary: Color.fromRGBO(83, 165, 74, 0.8),
+            ),
             onPressed: () {
               Navigator.push(
                   context,
@@ -111,13 +124,30 @@ class _HerbState extends State<Herb> {
             },
             child: Row(
               children: [
-                Image.network(
-                  plant.photo_url,
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  fit: BoxFit.fitWidth,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    plant.photo_url,
+                    width: MediaQuery.of(context).size.height * 0.15,
+                    height: MediaQuery.of(context).size.width * 0.4,
+                    fit: BoxFit.fill,
+                  ),
                 ),
-                Text(plant.name)
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(padding: EdgeInsets.all(20),
+                    child: Text(
+                      plant.name,
+                      style: const TextStyle(fontSize: 24, color: Colors.white70),
+                    )),
+                    Padding(padding: EdgeInsets.all(24),
+                    child: Text(
+                      plant.latin,
+                      style: const TextStyle(fontSize: 20, color: Colors.white54),
+                    )),
+                  ],
+                )
               ],
             )),
       );
@@ -134,7 +164,7 @@ class _HerbState extends State<Herb> {
     Widget desktopView() {
       return GridView.builder(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.2),
+              horizontal: MediaQuery.of(context).size.width * 0.1),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3),
           itemCount: plants.length,
