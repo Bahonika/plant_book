@@ -66,7 +66,10 @@ class _HomeState extends State<Home> {
           width: MediaQuery.of(context).size.longestSide * widthFactor,
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.primaryContainer,
+                  primary: Color.fromRGBO(250, 250, 250, 0.85),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   elevation: 2),
               onPressed: () {},
               child: Row(children: [
@@ -78,6 +81,7 @@ class _HomeState extends State<Home> {
                     fontSize: fontSize,
                   ),
                   softWrap: true,
+                      textAlign: TextAlign.center,
                 ))
               ])));
     }
