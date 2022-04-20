@@ -63,17 +63,17 @@ class _HerbState extends State<Herb> {
   Widget build(BuildContext context) {
     Widget desktopPlant(Plant plant) {
       return Container(
-        // height: MediaQuery.of(context).size.shortestSide * 0.90,
-        // width: MediaQuery.of(context).size.shortestSide * 0.30,
+        height: MediaQuery.of(context).size.height * 0.90,
+        width: MediaQuery.of(context).size.width * 0.30,
         margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
         child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              primary: Color.fromRGBO(83, 165, 74, 0.8),
             ),
-            primary: const Color.fromRGBO(83, 165, 74, 0.8),
-          ),
             onPressed: () {
               Navigator.push(
                   context,
@@ -106,9 +106,10 @@ class _HerbState extends State<Herb> {
 
     Widget mobilePlant(Plant plant) {
       return Container(
-        height: MediaQuery.of(context).size.height * 0.3,
-        width: MediaQuery.of(context).size.width * 0.2,
+        // height: MediaQuery.of(context).size.height * 0.3,
+        // width: MediaQuery.of(context).size.width * 0.2,
         margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        padding: EdgeInsets.all(10),
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -124,28 +125,35 @@ class _HerbState extends State<Herb> {
             },
             child: Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    plant.photo_url,
-                    width: MediaQuery.of(context).size.height * 0.15,
-                    height: MediaQuery.of(context).size.width * 0.4,
-                    fit: BoxFit.fill,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      plant.photo_url,
+                      width: MediaQuery.of(context).size.shortestSide * 0.17,
+                      height: MediaQuery.of(context).size.shortestSide * 0.17,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(padding: EdgeInsets.all(20),
-                    child: Text(
-                      plant.name,
-                      style: const TextStyle(fontSize: 24, color: Colors.white70),
-                    )),
-                    Padding(padding: EdgeInsets.all(24),
-                    child: Text(
-                      plant.latin,
-                      style: const TextStyle(fontSize: 20, color: Colors.white54),
-                    )),
+                    Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Text(
+                          plant.name,
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white70),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Text(
+                          plant.latin,
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.white54),
+                        )),
                   ],
                 )
               ],
@@ -175,7 +183,14 @@ class _HerbState extends State<Herb> {
 
     return widget.user.role == GuestUser().role
         ? const Center(
-            child: Text("Для просмотра коллекции, пожалуйста, авторизируйтесь"),
+            child: Text("Для просмотра коллекции, пожалуйста, авторизируйтесь",
+                style: TextStyle(
+                    fontSize: 40,
+                    color: Color.fromRGBO(12, 12, 12, 0.67),
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    letterSpacing: 3),
+            textAlign: TextAlign.center,),
           )
         : getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
             ? mobileView()
