@@ -12,7 +12,7 @@ abstract class PostUpdateRepository<T extends Postable> extends BasicRepository<
 
   String get idAlias;
 
-  Future<int> create(T entity, File file, AuthorizedUser user) async{
+  Future<int> create(T entity, AuthorizedUser user) async{
     var uri = Uri.https(Api.siteRoot, apiPath());
     var dio = Dio();
     var response = await dio.post("https://" + Api.siteRoot+apiPath(),
@@ -26,6 +26,15 @@ abstract class PostUpdateRepository<T extends Postable> extends BasicRepository<
       return response.data[idAlias];
     }
     throw HttpException("can't post to $uri Status: $status");
+  }
+
+  Future<void> update(T entity, int id, AuthorizedUser user) async{
+    var response = await http.put(apiIdPath(id), headers: {'Authorization': "Token ${user.token}"},
+        body: entity.toJson());
+    var status = response.statusCode;
+    if(status != 201){
+      throw HttpException("can't update Status: $status");
+    }
   }
 
 

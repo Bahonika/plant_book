@@ -88,12 +88,18 @@ class _AddState extends State<Add> {
         print("Нет фото");
       } else {
         PlantSave plantSave = PlantSave(
-            serialNumber: int.parse(serialController.text),
-            name: nameController.text,
-            photo: File(photo!.path),
-            latin: latinController.text,
-            family: placeController.text);
-        plantSaveRepository.create(plantSave, photo!, widget.user);
+          serialNumber: int.parse(serialController.text),
+          name: nameController.text,
+          photo: File(photo!.path),
+          latin: latinController.text,
+          family: placeController.text,
+          collector: collectorController.text,
+          date: DateFormat("yyyy-MM-dd").format(selectedDate).toString(),
+          determinate: determinateController.text,
+          habitat: habitatController.text,
+          place: placeController.text,
+        );
+        plantSaveRepository.create(plantSave, widget.user);
       }
     }
 

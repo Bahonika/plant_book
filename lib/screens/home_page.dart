@@ -163,17 +163,6 @@ class _HomePageState extends State<HomePage>
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // Container(
-            //     color: Theme.of(context).colorScheme.primary,
-            //     width: MediaQuery.of(context).size.width,
-            //     height: 65,
-            //     child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            //       IconButton(
-            //         onPressed: () => scaffoldKey.currentState!.openEndDrawer(),
-            //         icon: const Icon(Icons.menu_rounded),
-            //         color: Colors.grey,
-            //       ),
-            //     ])),
             Expanded(
               child: TabBarView(
                 controller: tabController,

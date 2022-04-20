@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:polar_sun/data/entities/user.dart';
 import 'package:polar_sun/data/repositories/auth_user.dart';
 import 'package:polar_sun/screens/home_page.dart';
+import 'package:polar_sun/screens/register_page.dart';
 import 'package:polar_sun/templates/box_shadow.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -146,6 +147,20 @@ class _LoginPageState extends State<LoginPage> {
               letterSpacing: 10));
     }
 
+    Widget registerButton(){
+      return SizedBox(
+          height: 40,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).colorScheme.primaryContainer,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                elevation: 1),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage())),
+            child: Text("Регистрация", style: GoogleFonts.montserrat(fontSize: 24)),
+          ));
+    }
+
     Widget mobileView() {
       return Center(
         child: SingleChildScrollView(
@@ -193,7 +208,8 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [loginButton(), subscribeButton()],
                         ),
-                      )
+                      ),
+                      registerButton()
                     ])),
             const SizedBox(
               width: 20,

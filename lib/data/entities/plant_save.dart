@@ -37,7 +37,7 @@ class PlantSave implements Postable {
   @override
   Map<String, dynamic> toJson() {
     var fields = {
-      "serialNumber": serialNumber,
+      "serial_number": serialNumber,
       "name": name,
       "latin": latin,
       "family": family,
