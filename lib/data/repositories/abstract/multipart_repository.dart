@@ -1,7 +1,10 @@
 import 'dart:io';
-import 'dart:typed_data';
+// import 'dart:html';
+// import 'dart:typed_data';
 
+// import 'dart:io' if (dart.library.html) 'dart:html';
 
+import 'package:flutter/foundation.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:polar_sun/data/entities/abstract/postable.dart';
 import 'package:polar_sun/data/repositories/abstract/post_update_repisitory.dart';
@@ -12,7 +15,7 @@ import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
 
-abstract class MultipartRepository<T extends Postable>
+abstract class MultipartRepository<T extends PostableWithMultipart>
     extends PostUpdateRepository<T> {
   Future<FormData> _prepareData(T entity) async {
     var fields = entity.toJson();
@@ -21,9 +24,16 @@ abstract class MultipartRepository<T extends Postable>
     for (final key in files.keys) {
       File file = files[key]!;
 
-      fields[key] = await MultipartFile.fromFile(file.path,
-          filename: basename(file.path),
-          contentType: MediaType("image", "jpеg"));
+      // if (kIsWeb) {
+      //   var bytes = file.readAsBytesSync();
+      //   fields[key] = await MultipartFile.fromBytes(bytes,
+      //       filename: basename(file.path),
+      //       contentType: MediaType("image", "jpеg"));
+      // } else {
+        fields[key] = await MultipartFile.fromFile(file.path,
+            filename: basename(file.path),
+            contentType: MediaType("image", "jpеg"));
+      // }
     }
 
     return FormData.fromMap(fields);

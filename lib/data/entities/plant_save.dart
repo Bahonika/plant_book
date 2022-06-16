@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:polar_sun/data/entities/abstract/postable.dart';
 
-class PlantSave implements Postable {
+class PlantSave implements PostableWithMultipart {
   final int serialNumber;
   final File photo;
   final String name;

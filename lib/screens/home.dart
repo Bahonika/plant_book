@@ -60,41 +60,41 @@ class _HomeState extends State<Home> {
             ? 30
             : 16;
 
-    Widget homePageButton(String assetName, String buttonText) {
-      return SizedBox(
-          height: MediaQuery.of(context).size.shortestSide * heightFactor,
-          width: MediaQuery.of(context).size.longestSide * widthFactor,
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(250, 250, 250, 0.85),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 2),
-              onPressed: () {},
-              child: Row(children: [
-                Image.asset(assetName),
-                Flexible(
-                    child: Text(
-                  buttonText,
-                  style: TextStyle(
-                    fontSize: fontSize,
-                  ),
-                  softWrap: true,
-                      textAlign: TextAlign.center,
-                ))
-              ])));
-    }
-
-    Widget herbariumButton() {
-      return homePageButton(
-          "lib/assets/herbarium.png", "Цифровой гербарий МАГУ");
-    }
-
-    Widget gardenButton() {
-      return homePageButton(
-          "lib/assets/flora.png", "Заповедники и ботанические сады");
-    }
+    // Widget homePageButton(String assetName, String buttonText) {
+    //   return SizedBox(
+    //       height: MediaQuery.of(context).size.shortestSide * heightFactor,
+    //       width: MediaQuery.of(context).size.longestSide * widthFactor,
+    //       child: ElevatedButton(
+    //           style: ElevatedButton.styleFrom(
+    //               primary: Color.fromRGBO(250, 250, 250, 0.85),
+    //               shape: RoundedRectangleBorder(
+    //                 borderRadius: BorderRadius.circular(20),
+    //               ),
+    //               elevation: 2),
+    //           onPressed: () {},
+    //           child: Row(children: [
+    //             Image.asset(assetName),
+    //             Flexible(
+    //                 child: Text(
+    //               buttonText,
+    //               style: TextStyle(
+    //                 fontSize: fontSize,
+    //               ),
+    //               softWrap: true,
+    //                   textAlign: TextAlign.center,
+    //             ))
+    //           ])));
+    // }
+    //
+    // Widget herbariumButton() {
+    //   return homePageButton(
+    //       "lib/assets/herbarium.png", "Цифровой гербарий МАГУ");
+    // }
+    //
+    // Widget gardenButton() {
+    //   return homePageButton(
+    //       "lib/assets/flora.png", "Заповедники и ботанические сады");
+    // }
 
     Widget mobileView() {
       return Stack(children: [
@@ -114,14 +114,8 @@ class _HomeState extends State<Home> {
                   polarSunAlias(),
                   const SizedBox(height: 20),
                   biodiversityAlias(),
-                  const SizedBox(
-                    height: 93,
-                  ),
-                  herbariumButton(),
-                  const SizedBox(
-                    height: 36,
-                  ),
-                  gardenButton(),
+                  const SizedBox(height: 100),
+                  Image.asset("lib/assets/masu.png", height: 250),
                 ]))
       ]);
     }
@@ -139,18 +133,11 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 polarSunAlias(),
-                SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 biodiversityAlias(),
-                const SizedBox(
-                  height: 93,
-                ),
-                herbariumButton(),
-                const SizedBox(
-                  height: 36,
-                ),
-                gardenButton(),
+                const SizedBox(height: 200),
+                Image.asset("lib/assets/masu.png", height: 250),
+                const SizedBox(height: 70),
               ],
             ),
           ),

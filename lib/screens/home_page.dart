@@ -73,15 +73,27 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  IconButton logoutButton() {
-    return IconButton(
-        onPressed: logout,
-        icon: Transform.rotate(
-            angle: math.pi,
-            child: const Icon(
-              Icons.logout,
-              color: Colors.redAccent,
-            )));
+  Widget logoutButton() {
+    if (widget.user?.role == "guest") {
+      return ElevatedButton(
+          onPressed: logout,
+          style: ElevatedButton.styleFrom(
+            elevation: 0,
+          ),
+          child: const Text(
+            "Вход",
+            style: TextStyle(color: Colors.white70, fontSize: 20),
+          ));
+    } else {
+      return IconButton(
+          onPressed: logout,
+          icon: Transform.rotate(
+              angle: math.pi,
+              child: const Icon(
+                Icons.logout,
+                color: Colors.redAccent,
+              )));
+    }
   }
 
   Future<void> getData() async {

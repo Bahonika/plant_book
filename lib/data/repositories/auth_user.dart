@@ -12,6 +12,8 @@ class AuthorizationException implements Exception {
   }
 }
 
+String loginError = "";
+
 class AuthUser extends Api {
   @override
   final String apiEndpoint = "login";
@@ -20,11 +22,12 @@ class AuthUser extends Api {
     var uri = Uri.https(Api.siteRoot, apiPath());
     var response = await http
         .post(uri, body: {'username': username, 'password': password});
-    print(username + " " + password, );
     var status = response.statusCode;
     if (response.statusCode == 200) {
+      loginError = "";
       return AuthorizedUser.fromJson(convert.jsonDecode(response.body));
     } else if (response.statusCode == 400) {
+      loginError = "Ошибка входа, неправильный логин или пароль";
       throw AuthorizationException();
     }
     throw HttpException("can't access $uri Status: $status");

@@ -9,7 +9,7 @@ class User {
   });
 
   static const moder = "moder";
-  static const guest = "Гость";
+  static const guest = "guest";
 
   @override
   String toString() {

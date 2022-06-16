@@ -1,7 +1,9 @@
 import 'dart:io';
 
-abstract class Postable{
+abstract class Postable {
   Map<String, dynamic> toJson();
-  Map<String, File> getFiles();
+}
 
+abstract class PostableWithMultipart extends Postable {
+  Map<String, File> getFiles();
 }

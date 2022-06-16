@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:polar_sun/data/entities/plant.dart';
+import 'package:polar_sun/data/entities/user.dart';
+import 'package:polar_sun/views/scaling_image.dart';
 
 import '../utils/device_screen_type.dart';
+import 'comments.dart';
 
 class PlantView extends StatefulWidget {
   final Plant plant;
+  final AuthorizedUser user;
 
-  PlantView({Key? key, required this.plant}) : super(key: key);
+  PlantView({Key? key, required this.plant, required this.user})
+      : super(key: key);
 
   @override
   State<PlantView> createState() => _PlantViewState();
@@ -19,10 +24,10 @@ class _PlantViewState extends State<PlantView> {
     return DataTable(columns: [
       DataColumn(
           label: ConstrainedBox(
-              child: const Text(
+              child: Text(
                 "Данные",
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: MediaQuery.of(context).size.shortestSide * 0.03,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -31,10 +36,10 @@ class _PlantViewState extends State<PlantView> {
               ))),
       DataColumn(
           label: ConstrainedBox(
-              child: const Text(
+              child: Text(
                 "Значение",
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: MediaQuery.of(context).size.shortestSide * 0.03,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -49,14 +54,14 @@ class _PlantViewState extends State<PlantView> {
       rows.add(DataRow(cells: [
         DataCell(Text(
           key,
-          style: TextStyle(
-            fontSize: 20,
+          style: const TextStyle(
+            fontSize: 15,
             fontStyle: FontStyle.italic,
           ),
         )),
         DataCell(Text(
           value,
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 15),
         )),
       ]));
     });
@@ -76,36 +81,61 @@ class _PlantViewState extends State<PlantView> {
           centerTitle: true,
           title: Text(
             widget.plant.name,
-            style: TextStyle(color: Colors.white70),
+            style: const TextStyle(color: Colors.white70),
           ),
         ),
         body: Center(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                decoration: const BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(14, 53, 23, 0.35),
-                    blurRadius: 22.0,
-                    offset: Offset(-8, -6),
-                  )
-                ]),
-                child: Image.network(
-                  widget.plant.photo_url,
-                  height: MediaQuery.of(context).size.height * 0.7,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ScalingImage(widget.plant.photo_url))),
+                      child: Container(
+                        decoration: const BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(14, 53, 23, 0.35),
+                            blurRadius: 22.0,
+                            offset: Offset(-8, -6),
+                          )
+                        ]),
+                        child: Image.network(
+                          widget.plant.photo_url,
+                          height: MediaQuery.of(context).size.height * 0.7,
+                        ),
+                      ),
+                    ),
+                    Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color.fromRGBO(245, 252, 243, 0.55),
+                        ),
+                        child: getTable()),
+                  ],
                 ),
-              ),
-              Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color.fromRGBO(245, 252, 243, 0.55),
+                ElevatedButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Comments(
+                              plant: widget.plant, user: widget.user))),
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "Комментарии",
+                      style: TextStyle(color: Colors.white70),
+                    ),
                   ),
-                  child: getTable())
-            ],
-          ),
+                )
+              ]),
         ),
       );
     }
@@ -119,23 +149,37 @@ class _PlantViewState extends State<PlantView> {
               expandedHeight: 3870 / (2701 / MediaQuery.of(context).size.width),
               flexibleSpace: FlexibleSpaceBar(
                 background: InkWell(
-                    // onTap: () {
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => ScalingImage(widget.plant.image)));
-                    // },
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ScalingImage(widget.plant.photo_url))),
                     child: FittedBox(
                         fit: BoxFit.fill,
                         child: Image.network(widget.plant.photo_url))),
               ),
             ),
             SliverToBoxAdapter(child: getTable()),
+            SliverToBoxAdapter(child: ElevatedButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Comments(
+                          plant: widget.plant, user: widget.user))),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  "Комментарии",
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ),
+            )),
           ],
         ),
       );
     }
 
+    // return Scaffold(body: commentsView());
     return getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
         ? mobilePlant(widget.plant)
         : desktopPlant(widget.plant);

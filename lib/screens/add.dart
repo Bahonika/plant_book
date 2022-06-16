@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:file_selector/file_selector.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/foundation.dart';
@@ -29,15 +30,42 @@ class _AddState extends State<Add> {
   TextEditingController serialController = TextEditingController();
   File? photo;
 
+  PlantSaveRepository plantSaveRepository = PlantSaveRepository();
+
+  String errorText = "";
+
   DateTime selectedDate = DateTime.now();
 
-  pickPhoto() async {
-    XFile? pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
+  void pickPhoto() async {
+    XFile? pickedFile;
+    if (!kIsWeb) {
+      if (Platform.isWindows) {
+        final typeGroup =
+            XTypeGroup(label: 'images', extensions: ['jpg', 'png']);
+        pickedFile = await openFile(acceptedTypeGroups: [typeGroup]);
+      }
+    } else {
+      pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
+    }
     if (pickedFile != null) {
       setState(() {
-        photo = File(pickedFile.path);
+        photo = File(pickedFile!.path);
+      });
+    }
+  }
+
+  void selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
       });
     }
   }
@@ -60,22 +88,6 @@ class _AddState extends State<Add> {
       );
     }
 
-    selectDate(BuildContext context) async {
-      final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1900),
-        lastDate: DateTime(2025),
-      );
-      if (picked != null && picked != selectedDate) {
-        setState(() {
-          selectedDate = picked;
-        });
-      }
-    }
-
-    PlantSaveRepository plantSaveRepository = PlantSaveRepository();
-
     addToDatabase() async {
       if (nameController.text == "" ||
           latinController.text == "" ||
@@ -83,9 +95,9 @@ class _AddState extends State<Add> {
           habitatController.text == "" ||
           collectorController.text == "" ||
           determinateController.text == "") {
-        print("Заполните все поля");
+        errorText = "Заполните все поля";
       } else if (photo == null) {
-        print("Нет фото");
+        errorText = "Добавьте фотографию";
       } else {
         PlantSave plantSave = PlantSave(
           serialNumber: int.parse(serialController.text),
@@ -100,91 +112,113 @@ class _AddState extends State<Add> {
           place: placeController.text,
         );
         plantSaveRepository.create(plantSave, widget.user);
+        errorText = "Успех";
       }
+      setState(() {});
     }
 
-    return ListView(
-      padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.2, vertical: 20),
-      children: [
-        Center(
-          child: Text("Добавление растения",
-              style: GoogleFonts.montserrat(
-                fontSize: MediaQuery.of(context).size.longestSide * 0.025,
-                fontWeight: FontWeight.w700,
-                color: const Color.fromRGBO(14, 53, 23, 1),
-                letterSpacing: 7,
-              )),
-        ),
-        addTextField(Plant.serialAlias, serialController),
-        addTextField(Plant.nameAlias, nameController),
-        addTextField(Plant.latinAlias, latinController),
-        addTextField(Plant.placeAlias, placeController),
-        addTextField(Plant.habitatAlias, habitatController),
-        addTextField(Plant.collectorAlias, collectorController),
-        addTextField(Plant.determinateAlias, determinateController),
-        ElevatedButton(
-          onPressed: () => selectDate(context),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+    return kIsWeb
+        ? Center(
             child: Text(
-              "Выбрать дату сбора - " +
-                  DateFormat("dd.MM.yyyy").format(selectedDate),
-              textAlign: TextAlign.center,
+              "К сожалению, добавление новых экземпляров с браузера временно недоступно. \nВоспользуйтесь мобильным или настольным приложением",
               style: TextStyle(
-                  fontSize: 25, color: Theme.of(context).backgroundColor),
+                  fontSize: 40,
+                  color: Color.fromRGBO(12, 12, 12, 0.67),
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  letterSpacing: 3),
+              textAlign: TextAlign.center,
             ),
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        ElevatedButton(
-            onPressed: pickPhoto,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Выбрать изображение растения",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 25, color: Theme.of(context).backgroundColor),
+          )
+        : ListView(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.2,
+                vertical: 20),
+            children: [
+              Center(
+                child: Text("Добавление растения",
+                    style: GoogleFonts.montserrat(
+                      fontSize: MediaQuery.of(context).size.longestSide * 0.025,
+                      fontWeight: FontWeight.w700,
+                      color: const Color.fromRGBO(14, 53, 23, 1),
+                      letterSpacing: 7,
+                    )),
               ),
-            )),
-        photo != null
-            ? kIsWeb
-                ? Text(
-                    "Выбран файл " + photo!.path,
-                    style: const TextStyle(fontSize: 15),
-                  )
-                : Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 4),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4))),
-                    child: Image.file(
-                      photo!,
-                      fit: BoxFit.cover,
+              addTextField(Plant.serialAlias, serialController),
+              addTextField(Plant.nameAlias, nameController),
+              addTextField(Plant.latinAlias, latinController),
+              addTextField(Plant.placeAlias, placeController),
+              addTextField(Plant.habitatAlias, habitatController),
+              addTextField(Plant.collectorAlias, collectorController),
+              addTextField(Plant.determinateAlias, determinateController),
+              ElevatedButton(
+                onPressed: () => selectDate(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Выбрать дату сбора - " +
+                        DateFormat("dd.MM.yyyy").format(selectedDate),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 25, color: Theme.of(context).backgroundColor),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                  onPressed: pickPhoto,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Выбрать изображение растения",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Theme.of(context).backgroundColor),
                     ),
-                  )
-            : const SizedBox(
-                height: 20,
+                  )),
+              photo != null
+                  ? kIsWeb
+                      ? Text(
+                          "Выбран файл " + photo!.path,
+                          style: const TextStyle(fontSize: 15),
+                        )
+                      : Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  width: 4),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4))),
+                          child: Image.file(
+                            photo!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                  : const SizedBox(
+                      height: 20,
+                    ),
+              Text(
+                errorText,
+                style: TextStyle(color: Colors.redAccent, fontSize: 25),
               ),
-        ElevatedButton(
-            onPressed: addToDatabase,
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Готово",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 25, color: Theme.of(context).backgroundColor),
-              ),
-            )),
-      ],
-    );
+              ElevatedButton(
+                  onPressed: addToDatabase,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Готово",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Theme.of(context).backgroundColor),
+                    ),
+                  )),
+            ],
+          );
   }
 }

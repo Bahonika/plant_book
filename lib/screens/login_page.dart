@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
           ));
     }
 
-    Widget subscribeButton() {
+    Widget guestLoginButton() {
       return SizedBox(
         height: 40,
         child: ElevatedButton(
@@ -133,6 +133,8 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.white60, borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
               controller: passwordController,
+              obscureText: true,
+              obscuringCharacter: "*",
               decoration: const InputDecoration(
                 hintText: "Пароль",
                 border: InputBorder.none,
@@ -142,12 +144,14 @@ class _LoginPageState extends State<LoginPage> {
     Widget authorizationAlias() {
       return Text("АВТОРИЗАЦИЯ",
           style: GoogleFonts.montserrat(
-              fontSize: MediaQuery.of(context).size.longestSide * 0.025 < 28 ? 28 : MediaQuery.of(context).size.longestSide * 0.025,
+              fontSize: MediaQuery.of(context).size.longestSide * 0.025 < 28
+                  ? 28
+                  : MediaQuery.of(context).size.longestSide * 0.025,
               fontWeight: FontWeight.w700,
               letterSpacing: 10));
     }
 
-    Widget registerButton(){
+    Widget registerButton() {
       return SizedBox(
           height: 40,
           child: ElevatedButton(
@@ -156,9 +160,18 @@ class _LoginPageState extends State<LoginPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 elevation: 1),
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage())),
-            child: Text("Регистрация", style: GoogleFonts.montserrat(fontSize: 24)),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const RegisterPage())),
+            child: Text("Зарегистрироваться",
+                style: GoogleFonts.montserrat(fontSize: 24)),
           ));
+    }
+
+    Widget loginErrorWidget() {
+      return Text(
+        loginError,
+        style: TextStyle(color: Colors.redAccent, fontSize: 20),
+      );
     }
 
     Widget mobileView() {
@@ -175,8 +188,10 @@ class _LoginPageState extends State<LoginPage> {
                       authorizationAlias(),
                       loginTextField(),
                       passwordTextField(),
-                      loginButton(),
-                      subscribeButton(),
+                      Visibility(
+                          visible: loginError != "", child: loginButton()),
+                      loginErrorWidget(),
+                      guestLoginButton(),
                     ])),
             const SizedBox(
               width: 20,
@@ -202,11 +217,13 @@ class _LoginPageState extends State<LoginPage> {
                       authorizationAlias(),
                       loginTextField(),
                       passwordTextField(),
+                      Visibility(
+                          visible: loginError != "", child: loginErrorWidget()),
                       SizedBox(
                         width: widthOfTextFields,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [loginButton(), subscribeButton()],
+                          children: [loginButton(), guestLoginButton()],
                         ),
                       ),
                       registerButton()

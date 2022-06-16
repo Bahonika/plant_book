@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:polar_sun/data/entities/user.dart';
 import 'package:polar_sun/data/repositories/auth_user.dart';
 import 'package:polar_sun/data/repositories/register.dart';
-import 'package:polar_sun/screens/home_page.dart';
 import 'package:polar_sun/templates/box_shadow.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +13,10 @@ class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
+
+String usernameError = "";
+String emailError = "";
+String passwordError = "";
 
 class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController passwordController;
@@ -33,6 +36,11 @@ class _RegisterPageState extends State<RegisterPage> {
     firstController = TextEditingController();
     emailController = TextEditingController();
     lastController = TextEditingController();
+
+    usernameError = "";
+    emailError = "";
+    passwordError = "";
+
     super.initState();
   }
 
@@ -68,6 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
         String text, TextInputType textInputType) {
       return Container(
           height: 46,
+          margin: const EdgeInsets.symmetric(vertical: 5),
           width: widthOfTextFields,
           decoration: BoxDecoration(
               color: Colors.white60, borderRadius: BorderRadius.circular(10)),
@@ -91,24 +100,15 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     var registerUser = RegisterUser();
-    String validateMessage = "";
 
-    bool emailIsOk =
-        emailController.text.length > 5 && emailController.text.contains("@");
-
-    register() {
-      if (usernameController.text.isEmpty ||
-          firstController.text.isEmpty ||
-          lastController.text.isEmpty ||
-          emailController.text.isEmpty ||
-          passwordController.text.isEmpty) {
-        validateMessage = "Заполните все поля";
-      } else if (!emailIsOk) {
-        validateMessage = "Введите корректный Email";
-      } else {
-        registerUser.auth(usernameController.text, firstController.text,
-            lastController.text, emailController.text, passwordController.text);
-      }
+    void register() async {
+      //TODO Сделать нормально, без костылей
+      usernameError = " ";
+      emailError = " ";
+      passwordError = " ";
+      registerUser.register(usernameController.text, firstController.text,
+          lastController.text, emailController.text, passwordController.text);
+      await Future.delayed(const Duration(seconds: 1));
       setState(() {});
     }
 
@@ -127,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ));
     }
 
-    Widget authorizationButton(){
+    Widget authorizationButton() {
       return SizedBox(
           height: 40,
           child: ElevatedButton(
@@ -137,8 +137,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(20)),
                 elevation: 1),
             onPressed: () => Navigator.pop(context),
-            child: Text("Авторизация", style: GoogleFonts.montserrat(fontSize: 24)),
+            child: Text("Войти",
+                style: GoogleFonts.montserrat(fontSize: 24)),
           ));
+    }
+
+    Widget errorWidget(String error) {
+      return error.length > 2
+          ? Text(
+              error,
+              style: const TextStyle(color: Colors.redAccent),
+            )
+          : const SizedBox();
     }
 
     Widget mobileView() {
@@ -146,13 +156,28 @@ class _RegisterPageState extends State<RegisterPage> {
         child: SingleChildScrollView(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(
-                height: 390,
+                height: 500,
                 alignment: Alignment.center,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       registarionAlias(),
+                      registryTextField(
+                          usernameController, "Никнейм*", TextInputType.name),
+                      errorWidget(usernameError),
+                      registryTextField(
+                          firstController, "Имя", TextInputType.name),
+                      registryTextField(
+                          lastController, "Фамилия", TextInputType.name),
+                      registryTextField(emailController, "Email*",
+                          TextInputType.emailAddress),
+                      errorWidget(emailError),
+                      registryTextField(passwordController, "Пароль*",
+                          TextInputType.visiblePassword),
+                      errorWidget(passwordError),
+                      registerButton(),
+                      authorizationButton()
                     ])),
             const SizedBox(
               width: 20,
@@ -170,29 +195,27 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             Container(
                 alignment: Alignment.center,
-                height: 390,
+                height: 500,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       registarionAlias(),
                       registryTextField(
-                          usernameController, "Никнейм", TextInputType.name),
+                          usernameController, "Никнейм*", TextInputType.name),
+                      errorWidget(usernameError),
                       registryTextField(
                           firstController, "Имя", TextInputType.name),
                       registryTextField(
                           lastController, "Фамилия", TextInputType.name),
                       registryTextField(
-                          emailController, "Email", TextInputType.emailAddress),
-                      registryTextField(passwordController, "Пароль",
+                          emailController, "Email*", TextInputType.emailAddress),
+                      errorWidget(emailError),
+                      registryTextField(passwordController, "Пароль*",
                           TextInputType.visiblePassword),
-                      validateMessage.length > 2
-                          ? Text(
-                              validateMessage,
-                              style: const TextStyle(color: Colors.redAccent),
-                            )
-                          : const SizedBox(),
-                      registerButton(),authorizationButton()
+                      errorWidget(passwordError),
+                      registerButton(),
+                      authorizationButton()
                     ])),
             const SizedBox(
               width: 20,
