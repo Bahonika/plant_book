@@ -97,7 +97,7 @@ class _PlantViewState extends State<PlantView> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  ScalingImage(widget.plant.photo_url))),
+                                  ScalingImage(widget.plant.photoUrl))),
                       child: Container(
                         decoration: const BoxDecoration(boxShadow: [
                           BoxShadow(
@@ -107,7 +107,7 @@ class _PlantViewState extends State<PlantView> {
                           )
                         ]),
                         child: Image.network(
-                          widget.plant.photo_url,
+                          widget.plant.photoUrl,
                           height: MediaQuery.of(context).size.height * 0.7,
                         ),
                       ),
@@ -153,10 +153,10 @@ class _PlantViewState extends State<PlantView> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                ScalingImage(widget.plant.photo_url))),
+                                ScalingImage(widget.plant.photoUrl))),
                     child: FittedBox(
                         fit: BoxFit.fill,
-                        child: Image.network(widget.plant.photo_url))),
+                        child: Image.network(widget.plant.photoUrl))),
               ),
             ),
             SliverToBoxAdapter(child: getTable()),

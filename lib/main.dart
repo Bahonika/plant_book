@@ -27,10 +27,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     Color primary = const Color.fromRGBO(75, 121, 55, 1.0);
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.portraitUp,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitDown,
+    //   DeviceOrientation.portraitUp,
+    // ]);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: primary,

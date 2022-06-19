@@ -44,6 +44,12 @@ class _AddState extends State<Add> {
             XTypeGroup(label: 'images', extensions: ['jpg', 'png']);
         pickedFile = await openFile(acceptedTypeGroups: [typeGroup]);
       }
+      else {
+        pickedFile = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+        );
+
+      }
     } else {
       pickedFile = await ImagePicker().pickImage(
         source: ImageSource.gallery,
@@ -104,7 +110,7 @@ class _AddState extends State<Add> {
           name: nameController.text,
           photo: File(photo!.path),
           latin: latinController.text,
-          family: placeController.text,
+          family: placeController.text as int,
           collector: collectorController.text,
           date: DateFormat("yyyy-MM-dd").format(selectedDate).toString(),
           determinate: determinateController.text,

@@ -191,6 +191,8 @@ class _LoginPageState extends State<LoginPage> {
                       Visibility(
                           visible: loginError != "", child: loginButton()),
                       loginErrorWidget(),
+                      loginButton(),
+                      registerButton(),
                       guestLoginButton(),
                     ])),
             const SizedBox(

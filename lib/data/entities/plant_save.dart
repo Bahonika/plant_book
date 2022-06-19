@@ -7,7 +7,7 @@ class PlantSave implements PostableWithMultipart {
   final File photo;
   final String name;
   final String latin;
-  final String family;
+  final int family;
   final String? place;
   final String? habitat;
   final String? date;

@@ -62,7 +62,7 @@ class _HerbState extends State<Herb> {
                 ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Image.network(
-                    plant.photo_url.substring(0, plant.photo_url.length - 4) +
+                    plant.photoUrl.substring(0, plant.photoUrl.length - 4) +
                         "s.jpg",
                     height: MediaQuery.of(context).size.longestSide * 0.17,
                     width: MediaQuery.of(context).size.longestSide * 0.12,
@@ -112,7 +112,7 @@ class _HerbState extends State<Herb> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      plant.photo_url.substring(0, plant.photo_url.length - 4) +
+                      plant.photoUrl.substring(0, plant.photoUrl.length - 4) +
                           "s.jpg",
                       width: MediaQuery.of(context).size.shortestSide * 0.18,
                       height: MediaQuery.of(context).size.shortestSide * 0.18,

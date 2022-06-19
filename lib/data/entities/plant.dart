@@ -5,10 +5,10 @@ import 'package:polar_sun/utils/utf_8_convert.dart';
 class Plant implements Displayable {
   final int id;
   final int serialNumber;
-  final String photo_url;
+  final String photoUrl;
   final String name;
   final String latin;
-  final String family;
+  final int family;
   final String? place;
   final String? habitat;
   final String? date;
@@ -18,7 +18,7 @@ class Plant implements Displayable {
   Plant({
     required this.id,
     required this.serialNumber,
-    required this.photo_url,
+    required this.photoUrl,
     required this.name,
     required this.latin,
     required this.family,
@@ -40,15 +40,14 @@ class Plant implements Displayable {
   static const String collectorAlias = "Собрал";
   static const String determinateAlias = "Определил";
 
-
   factory Plant.fromJson(Map<String, dynamic> json) {
     return Plant(
       id: json["id"],
       serialNumber: json["serial_number"],
-      photo_url: "https://" + Api.siteRoot + Api.apiRoot + json["photo_url"],
+      photoUrl: "https://" + Api.siteRoot + Api.apiRoot + json["photo_url"],
       name: utf8convert(json["name"]),
       latin: utf8convert(json["latin"]),
-      family: utf8convert(json["family"]),
+      family: json["family"],
       place: utf8convert(json["place"]),
       habitat: utf8convert(json["habitat"]),
       date: utf8convert(json["date"]),
@@ -63,7 +62,6 @@ class Plant implements Displayable {
       Plant.serialAlias: serialNumber.toString(),
       Plant.nameAlias: name,
       Plant.latinAlias: latin,
-      Plant.familyAlias: family,
       Plant.placeAlias: place!,
       Plant.habitatAlias: habitat!,
       Plant.dateAlias: date!,
