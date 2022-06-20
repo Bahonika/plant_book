@@ -21,6 +21,7 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
+  //TODO изменить функцию добавления растения
   TextEditingController nameController = TextEditingController();
   TextEditingController latinController = TextEditingController();
   TextEditingController placeController = TextEditingController();
@@ -124,7 +125,7 @@ class _AddState extends State<Add> {
     }
 
     return kIsWeb
-        ? Center(
+        ? const Center(
             child: Text(
               "К сожалению, добавление новых экземпляров с браузера временно недоступно. \nВоспользуйтесь мобильным или настольным приложением",
               style: TextStyle(

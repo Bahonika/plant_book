@@ -4,7 +4,7 @@ import 'abstract/basic.dart';
 
 class FamilyRepository extends BasicRepository<Family> {
   @override
-  final String apiEndpoint = "event_info";
+  final String apiEndpoint = "family";
 
   @override
   Family fromJson(json) {

@@ -5,10 +5,10 @@ import 'package:polar_sun/utils/utf_8_convert.dart';
 class Plant implements Displayable {
   final int id;
   final int serialNumber;
-  final String photoUrl;
+  final List<String> photoUrls;
   final String name;
   final String latin;
-  final int family;
+  final String family;
   final String? place;
   final String? habitat;
   final String? date;
@@ -18,7 +18,7 @@ class Plant implements Displayable {
   Plant({
     required this.id,
     required this.serialNumber,
-    required this.photoUrl,
+    required this.photoUrls,
     required this.name,
     required this.latin,
     required this.family,
@@ -41,10 +41,16 @@ class Plant implements Displayable {
   static const String determinateAlias = "Определил";
 
   factory Plant.fromJson(Map<String, dynamic> json) {
+    List<String> list = [];
+
+    for (String photo in json["add_photos"]){
+      list.add("https://" + Api.siteRoot + Api.apiRoot + photo);
+    }
+
     return Plant(
       id: json["id"],
       serialNumber: json["serial_number"],
-      photoUrl: "https://" + Api.siteRoot + Api.apiRoot + json["photo_url"],
+      photoUrls: list,
       name: utf8convert(json["name"]),
       latin: utf8convert(json["latin"]),
       family: json["family"],
@@ -64,6 +70,7 @@ class Plant implements Displayable {
       Plant.latinAlias: latin,
       Plant.placeAlias: place!,
       Plant.habitatAlias: habitat!,
+      Plant.familyAlias: family,
       Plant.dateAlias: date!,
       Plant.collectorAlias: collector!,
       Plant.determinateAlias: determinate!,

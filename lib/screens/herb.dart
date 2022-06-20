@@ -22,11 +22,13 @@ class _HerbState extends State<Herb> {
   final Map<String, String> queryParams = {};
 
   Future<void> getData(Map<String, String> queryParams) async {
-    if (widget.user.role != GuestUser().role) {
+    if (widget.user.toString() != GuestUser().role) {
       plants = await repository.getAll(
           queryParams: queryParams, user: widget.user as AuthorizedUser);
-      setState(() {});
     }
+    // plants = await repository.getAll(
+    //     queryParams: queryParams, user: widget.user as AuthorizedUser);
+    setState(() {});
   }
 
   @override
@@ -54,15 +56,17 @@ class _HerbState extends State<Herb> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PlantView(plant: plant, user: widget.user as AuthorizedUser)));
+                      builder: (context) => PlantView(
+                          plant: plant, user: widget.user as AuthorizedUser)));
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Image.network(
-                    plant.photoUrl.substring(0, plant.photoUrl.length - 4) +
+                    plant.photoUrls[0]
+                            .substring(0, plant.photoUrls[0].length - 4) +
                         "s.jpg",
                     height: MediaQuery.of(context).size.longestSide * 0.17,
                     width: MediaQuery.of(context).size.longestSide * 0.12,
@@ -103,7 +107,8 @@ class _HerbState extends State<Herb> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PlantView(plant: plant, user: widget.user as AuthorizedUser)));
+                      builder: (context) => PlantView(
+                          plant: plant, user: widget.user as AuthorizedUser)));
             },
             child: Row(
               children: [
@@ -112,7 +117,8 @@ class _HerbState extends State<Herb> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      plant.photoUrl.substring(0, plant.photoUrl.length - 4) +
+                      plant.photoUrls[0]
+                              .substring(0, plant.photoUrls[0].length - 4) +
                           "s.jpg",
                       width: MediaQuery.of(context).size.shortestSide * 0.18,
                       height: MediaQuery.of(context).size.shortestSide * 0.18,
@@ -170,7 +176,7 @@ class _HerbState extends State<Herb> {
           });
     }
 
-    return widget.user.role == GuestUser().role
+    return widget.user.toString() == GuestUser().role
         ? const Center(
             child: Text(
               "Для просмотра коллекции, пожалуйста, авторизируйтесь",

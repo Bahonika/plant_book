@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:polar_sun/data/entities/plant.dart';
 import 'package:polar_sun/data/entities/user.dart';
+import 'package:polar_sun/data/repositories/abstract/api.dart';
 import 'package:polar_sun/views/scaling_image.dart';
 
 import '../utils/device_screen_type.dart';
@@ -10,7 +11,7 @@ class PlantView extends StatefulWidget {
   final Plant plant;
   final AuthorizedUser user;
 
-  PlantView({Key? key, required this.plant, required this.user})
+  const PlantView({Key? key, required this.plant, required this.user})
       : super(key: key);
 
   @override
@@ -18,7 +19,10 @@ class PlantView extends StatefulWidget {
 }
 
 class _PlantViewState extends State<PlantView> {
+  String commentsAlias = "Комментарии";
+
   List<DataRow> rows = [];
+  List<String> imageList = [];
 
   DataTable getTable() {
     return DataTable(columns: [
@@ -49,7 +53,7 @@ class _PlantViewState extends State<PlantView> {
     ], rows: rows);
   }
 
-  rowsFill() {
+  void rowsFill() {
     widget.plant.getFields().forEach((key, value) {
       rows.add(DataRow(cells: [
         DataCell(Text(
@@ -61,15 +65,57 @@ class _PlantViewState extends State<PlantView> {
         )),
         DataCell(Text(
           value,
-          style: TextStyle(fontSize: 15),
+          style: const TextStyle(fontSize: 15),
         )),
       ]));
     });
   }
 
+  void imageListFill() {
+    for (String photo in widget.plant.photoUrls) {
+      imageList.add("https://" + Api.siteRoot + Api.apiRoot + photo);
+    }
+  }
+
+  Widget imageView(String image) {
+    return InkWell(
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ScalingImage(image))),
+      child: Container(
+        //TODO Тень починить
+        // decoration: const BoxDecoration(boxShadow: [
+        //   BoxShadow(
+        //     color: Color.fromRGBO(14, 53, 23, 0.35),
+        //     blurRadius: 22.0,
+        //     offset: Offset(-8, -6),
+        //   ),
+        // ]),
+        child: Image.network(
+          image,
+          // height: MediaQuery.of(context).size.height * 0.7,
+        ),
+      ),
+    );
+  }
+
+  Widget imageCarousel(List<String> imagesList) {
+    return Container(
+      //TODO сделать кнопки вправо и влево
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: PageView.builder(
+          itemCount: imageList.length,
+          scrollDirection: Axis.horizontal,
+          controller: PageController(initialPage: 0),
+          itemBuilder: (context, index) {
+            return imageView(imagesList[index]);
+          }),
+    );
+  }
+
   @override
   void initState() {
     rowsFill();
+    imageListFill();
     super.initState();
   }
 
@@ -92,31 +138,12 @@ class _PlantViewState extends State<PlantView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    InkWell(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ScalingImage(widget.plant.photoUrl))),
-                      child: Container(
-                        decoration: const BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(14, 53, 23, 0.35),
-                            blurRadius: 22.0,
-                            offset: Offset(-8, -6),
-                          )
-                        ]),
-                        child: Image.network(
-                          widget.plant.photoUrl,
-                          height: MediaQuery.of(context).size.height * 0.7,
-                        ),
-                      ),
-                    ),
+                    Expanded(child: imageCarousel(widget.plant.photoUrls)),
                     Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Color.fromRGBO(245, 252, 243, 0.55),
+                          color: const Color.fromRGBO(245, 252, 243, 0.55),
                         ),
                         child: getTable()),
                   ],
@@ -128,10 +155,10 @@ class _PlantViewState extends State<PlantView> {
                           builder: (context) => Comments(
                               plant: widget.plant, user: widget.user))),
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Text(
-                      "Комментарии",
-                      style: TextStyle(color: Colors.white70),
+                      commentsAlias,
+                      style: const TextStyle(color: Colors.white70),
                     ),
                   ),
                 )
@@ -147,30 +174,31 @@ class _PlantViewState extends State<PlantView> {
             SliverAppBar(
               pinned: true,
               expandedHeight: 3870 / (2701 / MediaQuery.of(context).size.width),
-              flexibleSpace: FlexibleSpaceBar(
-                background: InkWell(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ScalingImage(widget.plant.photoUrl))),
-                    child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Image.network(widget.plant.photoUrl))),
-              ),
+              // flexibleSpace: FlexibleSpaceBar(
+              //   background: InkWell(
+              //       onTap: () => Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //               builder: (context) =>
+              //                   ScalingImage(widget.plant.photoUrls))),
+              //       child: FittedBox(
+              //           fit: BoxFit.fill,
+              //           child: Image.network(widget.plant.photoUrls))),
+              // ),
             ),
             SliverToBoxAdapter(child: getTable()),
-            SliverToBoxAdapter(child: ElevatedButton(
+            SliverToBoxAdapter(
+                child: ElevatedButton(
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Comments(
-                          plant: widget.plant, user: widget.user))),
+                      builder: (context) =>
+                          Comments(plant: widget.plant, user: widget.user))),
               child: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Text(
-                  "Комментарии",
-                  style: TextStyle(color: Colors.white70),
+                  commentsAlias,
+                  style: const TextStyle(color: Colors.white70),
                 ),
               ),
             )),

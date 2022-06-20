@@ -13,6 +13,7 @@ class Family implements Displayable {
     return Family(
         id: json['id'] as int, familyName: utf8convert(json['family_name']));
   }
+
   @override
   Map<String, String> getFields() {
     return {
