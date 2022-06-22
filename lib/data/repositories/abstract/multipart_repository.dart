@@ -24,12 +24,7 @@ abstract class MultipartRepository<T extends PostableWithMultipart>
     for (final key in files.keys) {
       File file = files[key]!;
 
-      // if (kIsWeb) {
-      //   var bytes = file.readAsBytesSync();
-      //   fields[key] = await MultipartFile.fromBytes(bytes,
-      //       filename: basename(file.path),
-      //       contentType: MediaType("image", "jpеg"));
-      // } else {
+
         fields[key] = await MultipartFile.fromFile(file.path,
             filename: basename(file.path),
             contentType: MediaType("image", "jpеg"));
@@ -41,7 +36,9 @@ abstract class MultipartRepository<T extends PostableWithMultipart>
 
   @override
   Future<int> create(T entity, AuthorizedUser user) async {
+    //TODO change for https before release
     var uri = Uri.https(Api.siteRoot, apiPath());
+    // var uri = Uri.http(Api.siteRoot, apiPath());
     var dio = Dio();
     var formData = await _prepareData(entity);
     var response = await dio.post("https://" + Api.siteRoot + apiPath(),

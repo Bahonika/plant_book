@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polar_sun/data/entities/plant.dart';
 import 'package:polar_sun/data/entities/user.dart';
-import 'package:polar_sun/data/repositories/abstract/api.dart';
 import 'package:polar_sun/views/scaling_image.dart';
 
 import '../utils/device_screen_type.dart';
@@ -72,43 +71,119 @@ class _PlantViewState extends State<PlantView> {
   }
 
   void imageListFill() {
-    for (String photo in widget.plant.photoUrls) {
-      imageList.add("https://" + Api.siteRoot + Api.apiRoot + photo);
-    }
+    imageList = widget.plant.photoUrls;
   }
 
   Widget imageView(String image) {
     return InkWell(
       onTap: () => Navigator.push(context,
           MaterialPageRoute(builder: (context) => ScalingImage(image))),
-      child: Container(
-        //TODO Тень починить
-        // decoration: const BoxDecoration(boxShadow: [
-        //   BoxShadow(
-        //     color: Color.fromRGBO(14, 53, 23, 0.35),
-        //     blurRadius: 22.0,
-        //     offset: Offset(-8, -6),
-        //   ),
-        // ]),
+      child: Card(
+        // color: Theme.of(context).backgroundColor,
+        elevation: 20,
+
         child: Image.network(
           image,
+
+          fit: BoxFit.cover,
           // height: MediaQuery.of(context).size.height * 0.7,
         ),
       ),
     );
   }
 
+  Widget indicators(imagesLength, currentPage) {
+    return Row(
+      children: List<Widget>.generate(imagesLength, (index) {
+        return Container(
+          margin: const EdgeInsets.all(3),
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+              color: currentPage == index
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.black26,
+              shape: BoxShape.circle),
+        );
+      }),
+    );
+  }
+
+  int currentPage = 0;
+  PageController pageController = PageController(initialPage: 0);
+
+  void setPage(int page) {
+    setState(() {
+      pageController.animateToPage(page,
+          duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
+    });
+
+  }
+
   Widget imageCarousel(List<String> imagesList) {
-    return Container(
-      //TODO сделать кнопки вправо и влево
-      height: MediaQuery.of(context).size.height * 0.7,
-      child: PageView.builder(
-          itemCount: imageList.length,
-          scrollDirection: Axis.horizontal,
-          controller: PageController(initialPage: 0),
-          itemBuilder: (context, index) {
-            return imageView(imagesList[index]);
-          }),
+    return SizedBox(
+      height: getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
+          ? MediaQuery.of(context).size.height * 0.7
+          : MediaQuery.of(context).size.height * 0.7,
+      width: getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
+          ? MediaQuery.of(context).size.width
+          : MediaQuery.of(context).size.width * 0.2447,
+      child: Stack(
+        children: [
+          SizedBox(
+            height:
+                getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
+                    ? MediaQuery.of(context).size.height * 0.7
+                    : MediaQuery.of(context).size.height * 0.7,
+            width:
+                getDeviceType(MediaQuery.of(context)) == DeviceScreenType.mobile
+                    ? MediaQuery.of(context).size.width
+                    : MediaQuery.of(context).size.width * 0.2447,
+            child: PageView.builder(
+                itemCount: imageList.length,
+                scrollDirection: Axis.horizontal,
+                controller: pageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    currentPage = page;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return imageView(imagesList[index]);
+                }),
+          ),
+          Visibility(
+            visible: imageList.length != 1,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: IconButton(
+                onPressed: () => setPage(currentPage - 1),
+                icon: const Icon(Icons.arrow_back_rounded),
+                iconSize: 40,
+              ),
+            ),
+          ),
+          Visibility(
+            visible: imageList.length != 1,
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: IconButton(
+                onPressed: () => setPage(currentPage + 1),
+                icon: const Icon(Icons.arrow_forward_rounded),
+                iconSize: 40,
+              ),
+            ),
+          ),
+          Visibility(
+              visible: getDeviceType(MediaQuery.of(context)) ==
+                      DeviceScreenType.mobile &&
+                  imageList.length != 1,
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.bottomCenter,
+                  child: indicators(imagesList.length, currentPage)))
+        ],
+      ),
     );
   }
 
@@ -138,7 +213,16 @@ class _PlantViewState extends State<PlantView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(child: imageCarousel(widget.plant.photoUrls)),
+                    Column(
+                      children: [
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.2447,
+                            child: imageCarousel(widget.plant.photoUrls)),
+                        Visibility(
+                            visible: imageList.length != 1,
+                            child: indicators(imageList.length, currentPage)),
+                      ],
+                    ),
                     Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -173,18 +257,11 @@ class _PlantViewState extends State<PlantView> {
           slivers: [
             SliverAppBar(
               pinned: true,
+              backgroundColor: Theme.of(context).backgroundColor,
               expandedHeight: 3870 / (2701 / MediaQuery.of(context).size.width),
-              // flexibleSpace: FlexibleSpaceBar(
-              //   background: InkWell(
-              //       onTap: () => Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //               builder: (context) =>
-              //                   ScalingImage(widget.plant.photoUrls))),
-              //       child: FittedBox(
-              //           fit: BoxFit.fill,
-              //           child: Image.network(widget.plant.photoUrls))),
-              // ),
+              // expandedHeight:  MediaQuery.of(context).size.width * 0.7,
+              flexibleSpace: FlexibleSpaceBar(
+                  background: imageCarousel(widget.plant.photoUrls)),
             ),
             SliverToBoxAdapter(child: getTable()),
             SliverToBoxAdapter(

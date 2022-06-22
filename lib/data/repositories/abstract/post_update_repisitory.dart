@@ -13,14 +13,18 @@ abstract class PostUpdateRepository<T extends Postable> extends BasicRepository<
   String get idAlias;
 
   Future<int> create(T entity, AuthorizedUser user) async{
+    //TODO change for https before release
     var uri = Uri.https(Api.siteRoot, apiPath());
     var dio = Dio();
+
     var response = await dio.post("https://" + Api.siteRoot+apiPath(),
         data: entity.toJson(),
         options: Options(
             headers: {
               HttpHeaders.authorizationHeader: 'Token ' + user.token}
         ));
+
+
     var status = response.statusCode;
     if (status == 201){
       return response.data[idAlias];

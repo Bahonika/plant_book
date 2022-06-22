@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:polar_sun/data/entities/family.dart';
 import 'package:polar_sun/data/entities/plant.dart';
 import 'package:polar_sun/data/entities/user.dart';
+import 'package:polar_sun/data/repositories/family_repository.dart';
 import 'package:polar_sun/data/repositories/plant_repository.dart';
+import 'package:polar_sun/templates/decorators.dart';
 import 'package:polar_sun/utils/device_screen_type.dart';
 import '../views/plant_view.dart';
 
@@ -18,22 +22,72 @@ class Herb extends StatefulWidget {
 class _HerbState extends State<Herb> {
   List<Plant> plants = [];
 
-  var repository = PlantRepository();
+  PlantRepository plantRepository = PlantRepository();
   final Map<String, String> queryParams = {};
 
   Future<void> getData(Map<String, String> queryParams) async {
     if (widget.user.toString() != GuestUser().role) {
-      plants = await repository.getAll(
+      plants = await plantRepository.getAll(
           queryParams: queryParams, user: widget.user as AuthorizedUser);
     }
-    // plants = await repository.getAll(
-    //     queryParams: queryParams, user: widget.user as AuthorizedUser);
     setState(() {});
+  }
+
+  Family? selectedFamily;
+  List<Family> familys = [];
+  FamilyRepository familyRepository = FamilyRepository();
+
+  void getFamilys() async {
+    familys = await familyRepository.getAll(
+      queryParams: queryParams,
+      user: widget.user as AuthorizedUser,
+    );
+  }
+
+  SuggestionsBoxController suggestionsBoxController =
+      SuggestionsBoxController();
+  TextEditingController selectedFamilyController = TextEditingController();
+
+  Widget familyTypeAheadField() {
+    return Container(
+      decoration: textBoxDecoration,
+      child: TypeAheadField(
+          suggestionsBoxController: suggestionsBoxController,
+          textFieldConfiguration: TextFieldConfiguration(
+            decoration: inputDecoration("Начните вводить название").copyWith(
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    selectedFamilyController.text = "";
+                    queryParams.clear();
+                    getData(queryParams);
+                  },
+                  icon: Icon(Icons.close)),
+            ),
+            controller: selectedFamilyController,
+          ),
+          suggestionsCallback: (pattern) =>
+              familys.where((element) => element.familyName.contains(pattern)),
+          itemBuilder: (context, Family suggestion) {
+            return ListTile(
+              leading: Text(suggestion.familyName),
+              focusColor: Theme.of(context).colorScheme.primary,
+              tileColor: Colors.white,
+            );
+          },
+          onSuggestionSelected: (Family family) {
+            selectedFamily = family;
+            selectedFamilyController.text = selectedFamily!.familyName;
+            queryParams.addAll({"family": selectedFamily!.id.toString()});
+            getData(queryParams);
+            setState(() {});
+          }),
+    );
   }
 
   @override
   void initState() {
     getData(queryParams);
+    getFamilys();
     super.initState();
   }
 
@@ -99,7 +153,7 @@ class _HerbState extends State<Herb> {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(10),
               ),
               primary: const Color.fromRGBO(83, 165, 74, 0.8),
             ),
@@ -165,15 +219,26 @@ class _HerbState extends State<Herb> {
     }
 
     Widget desktopView() {
-      return GridView.builder(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.1),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3),
-          itemCount: plants.length,
-          itemBuilder: (BuildContext context, int i) {
-            return desktopPlant(plants[i]);
-          });
+      return Stack(
+        children: [
+          GridView.builder(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.1),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3),
+              itemCount: plants.length,
+              itemBuilder: (BuildContext context, int i) {
+                return desktopPlant(plants[i]);
+              }),
+          Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                width: 300,
+                decoration: textBoxDecoration,
+                child: familyTypeAheadField(),
+              )),
+        ],
+      );
     }
 
     return widget.user.toString() == GuestUser().role

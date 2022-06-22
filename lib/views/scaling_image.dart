@@ -26,9 +26,7 @@ class _ScalingImageState extends State<ScalingImage>
             constrained: true,
             scaleEnabled: true,
             onInteractionEnd: (details) {
-              print("here");
               setState(() {
-
                 transformationController.toScene(Offset.zero);
               });
             },

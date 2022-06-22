@@ -19,7 +19,9 @@ class AuthUser extends Api {
   final String apiEndpoint = "login";
 
   Future<AuthorizedUser> auth(String username, String password) async {
+    //TODO change for https before release
     var uri = Uri.https(Api.siteRoot, apiPath());
+    // var uri = Uri.http(Api.siteRoot, apiPath());
     var response = await http
         .post(uri, body: {'username': username, 'password': password});
     var status = response.statusCode;

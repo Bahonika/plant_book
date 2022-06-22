@@ -39,7 +39,6 @@ class _CommentsState extends State<Comments> {
           plant: widget.plant.id);
       commentSaveRepository.create(commentSave, widget.user);
     }
-    print(comments);
     Future.delayed(Duration(seconds: 1)).then((value) => getData(queryParams));
 
 

@@ -4,7 +4,7 @@ import 'package:polar_sun/data/entities/abstract/postable.dart';
 
 class PlantSave implements PostableWithMultipart {
   final int serialNumber;
-  final File photo;
+  final List<int> photoIds;
   final String name;
   final String latin;
   final int family;
@@ -16,22 +16,20 @@ class PlantSave implements PostableWithMultipart {
 
   PlantSave({
     required this.serialNumber,
-    required this.photo,
+    required this.photoIds,
     required this.name,
     required this.latin,
     required this.family,
-    this.place,
+    required this.place,
+    required this.date,
     this.habitat,
-    this.date,
     this.collector,
     this.determinate,
   });
 
   @override
   Map<String, File> getFiles() {
-    return {
-      'photo': photo
-    };
+    return {};
   }
 
   @override
@@ -41,6 +39,7 @@ class PlantSave implements PostableWithMultipart {
       "name": name,
       "latin": latin,
       "family": family,
+      "add_photos": photoIds,
       "place": place,
       "habitat": habitat,
       "date": date,

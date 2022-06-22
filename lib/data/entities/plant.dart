@@ -44,7 +44,7 @@ class Plant implements Displayable {
     List<String> list = [];
 
     for (String photo in json["add_photos"]){
-      list.add("https://" + Api.siteRoot + Api.apiRoot + photo);
+      list.add("https://" + Api.siteRoot + Api.apiRoot + photo.substring(1, photo.length));
     }
 
     return Plant(
@@ -53,7 +53,7 @@ class Plant implements Displayable {
       photoUrls: list,
       name: utf8convert(json["name"]),
       latin: utf8convert(json["latin"]),
-      family: json["family"],
+      family: utf8convert(json["family"]),
       place: utf8convert(json["place"]),
       habitat: utf8convert(json["habitat"]),
       date: utf8convert(json["date"]),
